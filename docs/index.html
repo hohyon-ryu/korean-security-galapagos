@@ -3,141 +3,755 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AI 시대, 대한민국 IT 인프라 종합 보고서</title>
-<meta name="description" content="결제 보안 · 망분리 · 공문서 · 행정 보안 — 문제점, 원인, 해결책을 3단계 깊이로">
+<title>한국 결제보안, 왜 이 모양일까?</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth}
-body{font-family:-apple-system,'Apple SD Gothic Neo','Noto Sans KR',sans-serif;color:#1A1A1A;line-height:1.6}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;color:#4A4A4A;line-height:1.7;background:#FFFBF5}
+h1,h2,h3,h4{color:#1A1A1A;line-height:1.3}
 a{color:inherit;text-decoration:none}
+img{max-width:100%;height:auto;border-radius:12px;box-shadow:0 4px 20px rgba(0,0,0,.08)}
 
-.hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:40px 20px;background:linear-gradient(135deg,#FFFBF5 0%,#FFF3EB 50%,#F2EEFC 100%)}
-.hero h1{font-size:clamp(32px,6vw,56px);font-weight:800;margin-bottom:16px;line-height:1.3}
-.hero .sub{font-size:clamp(16px,3vw,22px);color:#555;margin-bottom:40px;max-width:700px}
-.hero .highlight{color:#E8706A}
+/* NAV */
+.nav{position:sticky;top:0;z-index:100;background:rgba(255,251,245,.95);backdrop-filter:blur(10px);border-bottom:1px solid rgba(0,0,0,.06);padding:0 24px}
+.nav-inner{max-width:1100px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:56px}
+.nav-links{display:flex;gap:24px;font-size:15px;font-weight:500}
+.nav-links a{color:#4A4A4A;transition:color .2s}
+.nav-links a:hover{color:#E8706A}
+.nav-gh{font-size:14px;color:#888;border:1px solid #ddd;padding:6px 14px;border-radius:8px;transition:all .2s}
+.nav-gh:hover{color:#1A1A1A;border-color:#aaa}
 
-.quote{background:#fff;border-left:4px solid #E8706A;padding:24px 30px;border-radius:0 16px 16px 0;max-width:750px;margin:0 auto 50px;font-size:clamp(15px,2.5vw,19px);color:#4A4A4A;line-height:1.7;box-shadow:0 2px 20px rgba(0,0,0,0.06)}
+/* SECTIONS */
+section{padding:80px 24px;margin-bottom:2px}
+.container{max-width:900px;margin:0 auto}
+.section-title{font-size:32px;margin-bottom:12px}
+.section-sub{font-size:18px;color:#888;margin-bottom:48px}
 
-.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:24px;max-width:1000px;margin:0 auto;padding:0 20px}
+/* HERO */
+.hero{background:linear-gradient(160deg,#FFFBF5 0%,#FFF3EB 100%);padding:120px 24px 100px;text-align:center}
+.hero-small{font-size:20px;color:#888;margin-bottom:8px}
+.hero h1{font-size:28px;color:#4A4A4A;margin-bottom:4px}
+.hero .hero-big{font-size:clamp(32px,6vw,52px);font-weight:800;color:#E8706A;margin-bottom:24px;line-height:1.2}
+.hero p{font-size:18px;color:#4A4A4A;max-width:600px;margin:0 auto 32px;line-height:1.8}
+.hero .scroll-hint{font-size:14px;color:#aaa;animation:bounce 2s infinite}
+@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(6px)}}
 
-.level-card{border-radius:20px;padding:48px 36px;text-align:center;transition:transform .2s,box-shadow .2s;cursor:pointer;display:flex;flex-direction:column;justify-content:space-between;min-height:420px;box-shadow:0 4px 24px rgba(0,0,0,0.08)}
-.level-card:hover{transform:translateY(-6px);box-shadow:0 8px 40px rgba(0,0,0,0.12)}
+/* CARDS */
+.card-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px;margin-bottom:40px}
+.card{padding:28px;border-radius:16px;background:#fff;box-shadow:0 2px 16px rgba(0,0,0,.05);border-left:4px solid #ddd;transition:transform .2s}
+.card:hover{transform:translateY(-2px)}
+.card.coral{border-left-color:#E8706A}
+.card.lavender{border-left-color:#7B68B8}
+.card.peach{border-left-color:#D88050}
+.card.mint{border-left-color:#2DAA78}
+.card h3{font-size:18px;margin-bottom:8px}
+.card p{font-size:15px;color:#666}
+.card img{margin-bottom:16px;max-width:100%;border-radius:10px}
 
-.level-card .emoji{font-size:48px;margin-bottom:16px}
-.level-card .tier{font-size:14px;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:12px}
-.level-card h2{font-size:28px;margin-bottom:16px;line-height:1.3}
-.level-card p{font-size:16px;color:#555;line-height:1.7;margin-bottom:24px;flex-grow:1}
-.level-card .btn{display:inline-block;padding:14px 32px;border-radius:50px;font-size:16px;font-weight:700;transition:background .2s}
+/* COMPARISON BOX */
+.compare{display:grid;grid-template-columns:1fr 1fr;gap:0;border-radius:16px;overflow:hidden;margin:40px 0}
+.compare-side{padding:32px}
+.compare-left{background:#FDEAEA;color:#1A1A1A}
+.compare-right{background:#EBFAF5;color:#1A1A1A}
+.compare-side h3{font-size:18px;margin-bottom:16px}
+.compare-side ul{list-style:none;padding:0}
+.compare-side li{padding:6px 0;font-size:15px}
+.compare-side li::before{content:'→ ';color:#888}
 
-.c1{background:linear-gradient(135deg,#FFF3EB,#FFE8E0)}
-.c1 .tier{color:#E8706A}
-.c1 .btn{background:#E8706A;color:#fff}
-.c1 .btn:hover{background:#d45a54}
+/* DEEP TOGGLE */
+.deep-toggle{display:inline-block;margin:32px 0 16px;padding:12px 28px;background:#fff;border:1px solid #ddd;border-radius:12px;font-size:15px;color:#4A4A4A;cursor:pointer;transition:all .2s}
+.deep-toggle:hover{background:#f8f8f8;border-color:#bbb}
+.deep-content{display:none;margin-top:24px;padding:32px;background:#fff;border-radius:16px;box-shadow:0 2px 16px rgba(0,0,0,.05)}
+.deep-content h3{font-size:20px;margin:24px 0 12px;color:#1A1A1A}
+.deep-content h3:first-child{margin-top:0}
+.deep-content h4{font-size:16px;margin:20px 0 8px;color:#4A4A4A}
+.deep-content p{margin-bottom:12px;font-size:15px}
+.deep-content ul{margin:0 0 16px 20px}
+.deep-content li{margin-bottom:6px;font-size:15px}
+.deep-content .stat-box{background:#F2EEFC;padding:20px;border-radius:12px;margin:16px 0;font-size:15px}
+.deep-content .stat-box strong{color:#7B68B8}
+.deep-content .warn-box{background:#FDEAEA;padding:20px;border-radius:12px;margin:16px 0}
+.deep-content .info-box{background:#EBFAF5;padding:20px;border-radius:12px;margin:16px 0}
+.deep-content img{display:block;max-width:500px;margin:20px auto;border-radius:12px}
 
-.c2{background:linear-gradient(135deg,#F2EEFC,#EAE4FA)}
-.c2 .tier{color:#7B68B8}
-.c2 .btn{background:#7B68B8;color:#fff}
-.c2 .btn:hover{background:#6a58a8}
+/* STORY */
+.story{font-size:18px;line-height:2;max-width:700px}
+.story .highlight{color:#E8706A;font-weight:700}
+.story .year{display:inline-block;background:#E8706A;color:#fff;padding:2px 10px;border-radius:6px;font-size:14px;font-weight:600;margin-right:4px}
 
-.c3{background:linear-gradient(135deg,#EBFAF5,#E0F5ED)}
-.c3 .tier{color:#2DAA78}
-.c3 .btn{background:#2DAA78;color:#fff}
-.c3 .btn:hover{background:#249868}
+/* TIMELINE */
+.timeline{position:relative;padding-left:32px;margin:24px 0}
+.timeline::before{content:'';position:absolute;left:8px;top:0;bottom:0;width:3px;background:linear-gradient(to bottom,#E8706A,#2DAA78,#7B68B8)}
+.tl-item{position:relative;margin-bottom:24px;padding-left:16px}
+.tl-item::before{content:'';position:absolute;left:-28px;top:8px;width:12px;height:12px;border-radius:50%;background:#E8706A;border:3px solid #fff;box-shadow:0 0 0 2px #E8706A}
+.tl-item .tl-year{font-weight:700;color:#E8706A;font-size:15px}
+.tl-item .tl-desc{font-size:15px;color:#4A4A4A}
 
-.topics{padding:80px 20px;background:#fff;text-align:center}
-.topics h2{font-size:clamp(24px,4vw,36px);margin-bottom:12px}
-.topics .sub{color:#888;margin-bottom:40px;font-size:18px}
-.topic-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px;max-width:1000px;margin:0 auto}
-.topic-item{padding:28px 20px;border-radius:16px;text-align:center}
-.topic-item .icon{font-size:36px;margin-bottom:12px}
-.topic-item h3{font-size:18px;margin-bottom:8px}
-.topic-item p{font-size:14px;color:#666}
-.t1{background:#FFF3EB}.t2{background:#F2EEFC}.t3{background:#FFF8F0}.t4{background:#EBFAF5}
+/* SOLUTION CARDS */
+.sol-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px;margin:32px 0}
+.sol-card{padding:24px;border-radius:16px;background:#fff;box-shadow:0 2px 16px rgba(0,0,0,.05);text-align:center}
+.sol-card .sol-num{font-size:32px;margin-bottom:8px}
+.sol-card h3{font-size:16px;margin-bottom:8px}
+.sol-card p{font-size:14px;color:#666}
 
-footer{padding:40px 20px;text-align:center;background:#FFFBF5;color:#888;font-size:14px}
-footer a{color:#7B68B8;font-weight:600}
+/* WHY NOW */
+.why-list{counter-reset:why}
+.why-item{display:flex;align-items:flex-start;gap:20px;margin-bottom:24px;padding:24px;background:rgba(255,255,255,.6);border-radius:16px}
+.why-num{flex-shrink:0;width:44px;height:44px;border-radius:12px;background:#7B68B8;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:18px}
+.why-text h3{font-size:17px;margin-bottom:4px}
+.why-text p{font-size:15px;color:#666}
 
-@media(max-width:700px){
-  .cards{grid-template-columns:1fr}
-  .level-card{min-height:auto;padding:36px 24px}
+/* BIG TEXT */
+.big-text{font-size:clamp(20px,3.5vw,28px);font-weight:700;color:#1A1A1A;text-align:center;margin:40px 0;line-height:1.6;padding:32px;background:#fff;border-radius:16px;box-shadow:0 2px 16px rgba(0,0,0,.05)}
+
+/* RESOURCES */
+.res-list{list-style:none;padding:0}
+.res-list li{padding:16px 20px;background:#fff;border-radius:12px;margin-bottom:12px;box-shadow:0 2px 8px rgba(0,0,0,.04);font-size:15px}
+.res-list a{color:#7B68B8;font-weight:500}
+.res-list a:hover{text-decoration:underline}
+
+/* TABLE */
+.cmp-table{width:100%;border-collapse:collapse;margin:16px 0;font-size:14px}
+.cmp-table th,.cmp-table td{padding:12px 16px;text-align:left;border-bottom:1px solid #eee}
+.cmp-table th{background:#f8f8f8;font-weight:600;color:#1A1A1A}
+.cmp-table tr:last-child td{border-bottom:none}
+
+/* LAYER CARDS */
+.layer{margin:16px 0;padding:20px;border-radius:12px;border-left:4px solid}
+.layer-1{background:#FFF3EB;border-color:#D88050}
+.layer-2{background:#F2EEFC;border-color:#7B68B8}
+.layer-3{background:#FDEAEA;border-color:#E8706A}
+.layer-4{background:#EBFAF5;border-color:#2DAA78}
+
+/* STAKEHOLDER */
+.stake{margin:12px 0;padding:16px 20px;background:#f9f9f9;border-radius:12px}
+.stake h4{margin-bottom:6px;font-size:15px}
+.stake ul{margin:0 0 0 18px;font-size:14px}
+
+/* ROADMAP */
+.phase{margin:16px 0;padding:20px;border-radius:12px;background:#f9f9f9}
+.phase h4{color:#E8706A;margin-bottom:8px}
+.phase ul{margin:0 0 0 18px;font-size:14px}
+
+/* FAQ */
+.faq-item{margin-bottom:16px;background:#fff;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,.04);overflow:hidden}
+.faq-q{padding:20px 24px;font-weight:700;font-size:16px;cursor:pointer;display:flex;justify-content:space-between;align-items:center}
+.faq-q:hover{background:#fafafa}
+.faq-q::after{content:'▼';font-size:12px;color:#aaa;transition:transform .2s}
+.faq-item.open .faq-q::after{transform:rotate(180deg)}
+.faq-a{display:none;padding:0 24px 20px;font-size:15px;color:#555;line-height:1.8}
+.faq-item.open .faq-a{display:block}
+
+/* CAROUSEL */
+.carousel{position:relative;max-width:540px;margin:0 auto;overflow:hidden;border-radius:16px;box-shadow:0 4px 24px rgba(0,0,0,.1)}
+.carousel-track{display:flex;transition:transform .3s ease}
+.carousel-track img{min-width:100%;height:auto;display:block;border-radius:0;box-shadow:none}
+.carousel-btn{position:absolute;top:50%;transform:translateY(-50%);background:rgba(255,255,255,.85);border:none;width:40px;height:40px;border-radius:50%;font-size:20px;cursor:pointer;z-index:2;box-shadow:0 2px 8px rgba(0,0,0,.15)}
+.carousel-btn:hover{background:#fff}
+.carousel-prev{left:8px}
+.carousel-next{right:8px}
+.carousel-dots{text-align:center;padding:12px 0}
+.carousel-dots span{display:inline-block;width:8px;height:8px;border-radius:50%;background:#ddd;margin:0 4px;cursor:pointer}
+.carousel-dots span.active{background:#E8706A}
+
+/* FOOTER */
+footer{text-align:center;padding:40px 24px;font-size:14px;color:#888;background:#FFFBF5;border-top:1px solid #eee}
+
+/* BG COLORS */
+.bg-white{background:#fff}
+.bg-mint{background:#EBFAF5}
+.bg-lavender{background:#F2EEFC}
+.bg-cream{background:#FFFBF5}
+
+/* MOBILE */
+@media(max-width:768px){
+  .card-grid,.sol-grid{grid-template-columns:1fr}
+  .compare{grid-template-columns:1fr}
+  .nav-links{gap:12px;font-size:13px}
+  section{padding:60px 16px}
+  .hero{padding:80px 16px 60px}
+  .deep-content{padding:20px}
+  .why-item{flex-direction:column;gap:12px}
 }
 </style>
 </head>
 <body>
 
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-inner">
+    <div class="nav-links">
+      <a href="#problem">문제</a>
+      <a href="#history">역사</a>
+      <a href="#solution">해결책</a>
+      <a href="#why-now">왜 지금</a>
+      <a href="#faq">FAQ</a>
+      <a href="#resources">출처</a>
+    </div>
+    <a href="https://github.com/hohyon-ryu/korean-security-galapagos" target="_blank" class="nav-gh">GitHub</a>
+  </div>
+</nav>
+
+<!-- HERO -->
 <section class="hero">
-  <h1>AI 시대,<br>대한민국 IT 인프라<br><span class="highlight">종합 보고서</span></h1>
-  <p class="sub">결제 보안 · 망분리 · 공문서 · 행정 보안</p>
-
-  <div class="quote">
-    은행 홈페이지 들어가면 프로그램 5개를 깔아야 한다. 공무원은 업무 PC에서 ChatGPT를 열 수 없다. 구청 서류는 6만 원짜리 프로그램이 있어야 열린다.<br><br>
-    <strong>2026년, AI 강국을 자처하는 대한민국의 현실이다.</strong>
-  </div>
-
-  <div class="cards">
-    <a href="level1.html" class="level-card c1">
-      <div>
-        <div class="emoji">🙋</div>
-        <div class="tier">Level 1</div>
-        <h2>시민 편</h2>
-        <p>나한테 왜 이런 일이 생기는 거야?<br>쉽고 짧게, 핵심만.</p>
-      </div>
-      <span class="btn">읽어보기 →</span>
-    </a>
-
-    <a href="level2.html" class="level-card c2">
-      <div>
-        <div class="emoji">📢</div>
-        <div class="tier">Level 2</div>
-        <h2>행동가 편</h2>
-        <p>왜 이렇게 됐고, 뭘 바꿔야 하나?<br>구조, 비교, 요구사항.</p>
-      </div>
-      <span class="btn">읽어보기 →</span>
-    </a>
-
-    <a href="level3.html" class="level-card c3">
-      <div>
-        <div class="emoji">🏛️</div>
-        <div class="tier">Level 3</div>
-        <h2>정책 입안자 편</h2>
-        <p>구체적으로 누가, 무엇을, 언제?<br>로드맵, 법률, 에이전트 시대 아키텍처.</p>
-      </div>
-      <span class="btn">읽어보기 →</span>
-    </a>
+  <div class="container">
+    <div class="hero-small">은행 들어가면 프로그램 깔고, 비밀번호 치고, 번호판 마우스로 클릭하고</div>
+    <h1>은행 홈페이지 들어갔더니</h1>
+    <div class="hero-big">프로그램 5개 깔라고?</div>
+    <p>공동인증서 비밀번호에 보안카드 번호에 OTP에 SMS 인증에...<br>외국에선 지문 찍으면 끝인데. 한국만 25년째.</p>
+    <div class="scroll-hint">↓ 스크롤해서 알아보기</div>
   </div>
 </section>
 
-<section class="topics">
-  <h2>4대 핵심 의제</h2>
-  <p class="sub">한국 IT 인프라의 구조적 문제</p>
-  <div class="topic-grid">
-    <div class="topic-item t1">
-      <div class="icon">🏦</div>
-      <h3>결제 보안</h3>
-      <p>프로그램 5개 설치, 보이스피싱 못 막음, 북한 해킹 통로</p>
+<!-- SECTION 1: 문제 -->
+<section id="problem" class="bg-white">
+  <div class="container">
+    <h2 class="section-title">뭐가 문제야?</h2>
+    <p class="section-sub">매일 겪는데 당연한 줄 알았던 것들</p>
+
+    <div class="card-grid">
+      <div class="card coral">
+        <h3>깔고 깔고 또 깔고</h3>
+        <p>은행 들어가면 프로그램 설치. 관공서 들어가면 프로그램 설치. 공무원 PC엔 10개가 돌아간다. 그런데 이 프로그램들이 오히려 해킹 통로가 됐다.</p>
+      </div>
+      <div class="card lavender">
+        <h3>비밀번호 지옥</h3>
+        <p>공동인증서 비밀번호, 보안카드 번호, OTP 번호, SMS 인증, 마우스로 뒤죽박죽 번호판 클릭... 외국은 지문 한 번이면 끝. 왜 나한테 보안키를 줘?</p>
+      </div>
+      <div class="card peach">
+        <h3>구청 서류가 안 열린다</h3>
+        <p>.hwp 파일. 한컴오피스 없으면 제대로 안 열리고, 레이아웃 깨지고. 전 세계에서 한국만 쓰는 포맷. AI? 못 읽음.</p>
+      </div>
+      <div class="card mint">
+        <h3>공무원은 인터넷이 안 된다</h3>
+        <p>업무 PC에서 구글 검색도 안 됨. ChatGPT? 당연히 안 됨. 외교부는 AI 사업을 추진하는데, 공무원이 AI를 쓸 수가 없다.</p>
+      </div>
     </div>
-    <div class="topic-item t2">
-      <div class="icon">🔒</div>
-      <h3>망분리</h3>
-      <p>공무원 PC 인터넷 차단, AI 사용 불가, 3년간 해킹 미발견</p>
+
+    <div class="compare">
+      <div class="compare-side compare-left">
+        <h3>한국에서 은행 이체하면</h3>
+        <ul>
+          <li>프로그램 5개 설치</li>
+          <li>공동인증서 비밀번호 입력</li>
+          <li>보안카드 35번 뒷자리 입력</li>
+          <li>OTP 번호 입력</li>
+          <li>SMS 인증번호 입력</li>
+          <li>마우스로 뒤죽박죽 번호판 클릭</li>
+          <li>은행마다 다른 앱 또 설치</li>
+        </ul>
+      </div>
+      <div class="compare-side compare-right">
+        <h3>미국에서 은행 이체하면</h3>
+        <ul>
+          <li>앱 열기</li>
+          <li>지문 찍기</li>
+          <li>끝.</li>
+        </ul>
+      </div>
     </div>
-    <div class="topic-item t3">
-      <div class="icon">📄</div>
-      <h3>공문서 HWP</h3>
-      <p>독점 포맷, 6만원 프로그램, AI가 읽을 수 없음</p>
-    </div>
-    <div class="topic-item t4">
-      <div class="icon">🛡️</div>
-      <h3>보안프로그램 과잉</h3>
-      <p>PC에 10종 설치, 성능 50% 저하, 취약점 19건 발견</p>
+
+    <button class="deep-toggle" onclick="toggleDeep('deep-problem')">더 깊이 보기 ▼</button>
+    <div class="deep-content" id="deep-problem">
+      <h3>왜 나한테 보안키를 줘?</h3>
+      <p>외국 은행은 보안을 <strong>은행 서버</strong>에서 처리한다. 한국 은행은 보안을 <strong>고객 PC</strong>에 떠넘긴다.</p>
+      <p>공인인증서가 그 핵심이다. 원래 암호화 '키'는 은행이 관리하는 건데, 한국만 이걸 사용자에게 USB로 줬다. 파일로 저장하니까 복사도 되고, 잃어버리기도 하고, 해킹당하기도 한다.</p>
+      <p>다른 나라는? 서버에서 관리한다. 사용자는 지문이나 얼굴만 대면 된다. 잃어버릴 것이 없다.</p>
+
+      <h3>보안 프로그램 5개 깔아도 보이스피싱 못 막는다</h3>
+      <p>보안 프로그램은 <strong>내 PC</strong>에 설치된다. 보이스피싱은 <strong>사람</strong>을 속인다. 방향이 완전히 다르다.</p>
+      <p>피해자가 직접 돈을 보내는데, PC 보안 프로그램이 뭘 막겠나. 그 프로그램은 피해자의 "정상적인 이체"를 보안 통과시켜줄 뿐이다.</p>
+      <div class="stat-box">
+        <strong>2023년 보이스피싱 피해액: 1조 965억 원</strong><br>
+        보안 프로그램 5개 다 깔려있는 PC에서 발생한 피해다.
+      </div>
+
+      <h3>왜 깔라고 하나? → 은행 면책용이다</h3>
+      <p>은행 입장에서 보안 프로그램은 "우리는 할 만큼 했다"는 증거다. 사고 나면 "고객이 보안 프로그램을 안 깔아서"라고 책임을 넘긴다.</p>
+      <div class="compare" style="margin:20px 0">
+        <div class="compare-side compare-left">
+          <h3>한국</h3>
+          <ul>
+            <li>해킹당하면 고객 책임</li>
+            <li>"보안 프로그램 안 깔았잖아"</li>
+            <li>은행은 면책</li>
+          </ul>
+        </div>
+        <div class="compare-side compare-right">
+          <h3>EU</h3>
+          <ul>
+            <li>해킹당하면 은행 책임</li>
+            <li>고객 과실 입증은 은행이</li>
+            <li>은행이 보안에 투자</li>
+          </ul>
+        </div>
+      </div>
+
+      <h3>숫자로 보는 현실</h3>
+      <div class="stat-box">
+        <strong>KAIST 연구팀</strong>이 국내 보안 프로그램에서 <strong>19건의 보안 취약점</strong>을 발견했다.<br>
+        깔라고 한 프로그램이 오히려 해킹 통로가 된다는 뜻이다.
+      </div>
+      <div class="warn-box">
+        <strong>북한 라자루스 그룹</strong>은 국내 보안 프로그램(MagicLine4NX)의 취약점을 이용해 <strong>3년간</strong> 해킹했다. 국정원이 경고했지만 조치는 느렸다.
+      </div>
+      <img src="img/instagram-vishing.png" alt="보이스피싱 피해 카드뉴스" style="max-width:500px">
     </div>
   </div>
 </section>
 
+<!-- SECTION 2: 역사 -->
+<section id="history" class="bg-mint">
+  <div class="container">
+    <h2 class="section-title">어떻게 이렇게 됐어?</h2>
+    <p class="section-sub">25년 전엔 이유가 있었다. 지금은 없다.</p>
+
+    <div class="story">
+      <p><span class="year">1999</span> 한국은 세계 최고의 IT 강국이었다.<br>
+      초고속 인터넷 세계 1위. UN 전자정부 3회 연속 1위.</p>
+
+      <p>근데 <span class="highlight">미국이 암호 기술 수출을 막았다.</span><br>
+      한국은 자체 기술로 해결했다. 그게 ActiveX였다.<br>
+      당시엔 합리적이었다.</p>
+
+      <p><span class="year">2000</span> 딱 1년 후, <span class="highlight">미국이 제한을 풀었다.</span><br>
+      한국은 이미 돌아올 수 없었다.</p>
+
+      <p>그리고 <span class="highlight">정부가 법으로 못 박아버렸다.</span><br>
+      "공인인증서만 인정한다."</p>
+
+      <p>크롬 안 됨. 맥 안 됨. 리눅스 안 됨.<br>
+      <span class="highlight">이 법, 21년 만에 겨우 폐지.</span></p>
+    </div>
+
+    <button class="deep-toggle" onclick="toggleDeep('deep-history')">더 깊이 보기 ▼</button>
+    <div class="deep-content" id="deep-history">
+      <h3>전체 타임라인</h3>
+      <div class="timeline">
+        <div class="tl-item">
+          <div class="tl-year">1999</div>
+          <div class="tl-desc">미국 암호기술 수출 제한(EAR). 한국, 자체 SEED 암호 + ActiveX로 전자금융 구축. 세계 최초 인터넷뱅킹 대중화.</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-year">2000</div>
+          <div class="tl-desc">미국 EAR 완화. TLS/SSL 수출 허용. 전 세계가 표준 기술로 전환. 한국은 이미 ActiveX 기반 인프라 구축 완료.</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-year">2005</div>
+          <div class="tl-desc">"전자서명법" 시행. 공인인증서 의무화. 법으로 ActiveX를 강제하는 구조 완성.</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-year">2006</div>
+          <div class="tl-desc">키보드 보안, 방화벽, 안티바이러스 등 "보안 5종 세트" 의무화 확대.</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-year">2008</div>
+          <div class="tl-desc">구글 크롬 출시. ActiveX 미지원. 한국 인터넷뱅킹은 IE에서만 가능한 상태 고착.</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-year">2020</div>
+          <div class="tl-desc">전자서명법 개정. 공인인증서 독점 폐지. 하지만 관행과 기존 시스템은 그대로.</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-year">2022</div>
+          <div class="tl-desc">미국 NIST 제로트러스트 아키텍처 표준 발표. 바이든 행정명령으로 연방기관 적용 의무화.</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-year">2023</div>
+          <div class="tl-desc">KAIST, 국내 보안 프로그램 19건 취약점 발표. 북한 라자루스 그룹의 보안 프로그램 악용 확인.</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-year">2024</div>
+          <div class="tl-desc">국정원, N2SF(국가망보안체계) 발표. 데이터를 기밀(C)/민감(S)/공개(O) 3등급으로 분류해서 등급별로 다른 보안 적용. 망분리 일률 적용 대신 합리적 차등 보안으로 전환하겠다는 방향. 하지만 실제 현장 전환은 매우 더딤.</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-year">2026</div>
+          <div class="tl-desc">외교부 에이전틱 AI 사업 시작. 하지만 망분리로 AI 활용 불가능한 공무원 5만 명. 모순 극대화.</div>
+        </div>
+      </div>
+
+      <h3>규제 포획 (Regulatory Capture)</h3>
+      <p>보안 업체가 규제를 만드는 데 영향을 미치고, 그 규제가 자사 제품을 의무화하는 구조다.</p>
+      <div class="warn-box">
+        <strong>이권 구조:</strong><br>
+        ① 보안 업체가 "이런 보안 필요하다"고 정부에 로비<br>
+        ② 정부가 해당 보안을 의무화하는 규정 제정<br>
+        ③ 은행/공공기관이 해당 업체 제품을 의무 구매<br>
+        ④ 업체 매출 보장 → 다시 ①로 순환<br><br>
+        바꾸면 매출이 사라지니, 바꾸지 않는 것이 이들에게 합리적이다.
+      </div>
+
+      <img src="img/lazarus-attack-scheme.png" alt="라자루스 공격 도식" style="max-width:500px">
+      <p style="text-align:center;font-size:13px;color:#888;margin-top:8px">북한 라자루스 그룹의 국내 보안 프로그램 취약점 악용 공격 도식</p>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 3: 해결책 -->
+<section id="solution" class="bg-white">
+  <div class="container">
+    <h2 class="section-title">어떻게 해결해?</h2>
+    <p class="section-sub">답은 간단하다. 다른 나라처럼 하면 된다.</p>
+
+    <div class="sol-grid">
+      <div class="sol-card">
+        <div class="sol-num">🔍</div>
+        <h3>이상한 패턴?</h3>
+        <p>은행 서버가 알아서 잡는다</p>
+      </div>
+      <div class="sol-card">
+        <div class="sol-num">⏳</div>
+        <h3>큰 돈 이체?</h3>
+        <p>30분 후에 실행 (냉각기간)</p>
+      </div>
+      <div class="sol-card">
+        <div class="sol-num">🤖</div>
+        <h3>보이스피싱?</h3>
+        <p>AI가 통화 분석해서 경고</p>
+      </div>
+      <div class="sol-card">
+        <div class="sol-num">👆</div>
+        <h3>본인 확인?</h3>
+        <p>지문이나 얼굴이면 끝</p>
+      </div>
+    </div>
+
+    <div class="big-text">전부 은행 서버에서 돌아간다.<br>내 PC에 깔 거? 없다.</div>
+
+    <button class="deep-toggle" onclick="toggleDeep('deep-solution')">더 깊이 보기 ▼</button>
+    <div class="deep-content" id="deep-solution">
+
+      <h3>제로트러스트: 망분리를 대체하는 보안</h3>
+      <p>지금까지 한국 보안의 핵심은 <strong>망분리</strong>다. 외부 인터넷과 내부 업무망을 물리적으로 분리한다. 안전해 보이지만, 이것 때문에 AI도 클라우드도 못 쓴다.</p>
+
+      <div class="info-box">
+        <strong>비유로 이해하기:</strong><br><br>
+        <strong>망분리</strong> = 현관문을 벽돌로 막아버린 것. 도둑은 못 들어오지만, 나도 못 나간다. 배달도 안 된다.<br><br>
+        <strong>제로트러스트</strong> = 들어올 때마다 신분증 확인하는 것. 문은 열려 있지만, 신원이 확인된 사람만 통과한다. 매번 확인한다.
+      </div>
+
+      <table class="cmp-table">
+        <thead>
+          <tr><th>항목</th><th>망분리</th><th>제로트러스트</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>원리</td><td>내부/외부를 물리적 분리</td><td>모든 접근을 매번 검증</td></tr>
+          <tr><td>AI 활용</td><td>불가능</td><td>가능</td></tr>
+          <tr><td>클라우드</td><td>불가능</td><td>가능</td></tr>
+          <tr><td>재택근무</td><td>극히 제한적</td><td>가능</td></tr>
+          <tr><td>내부자 위협</td><td>무방비</td><td>탐지 가능</td></tr>
+          <tr><td>비용</td><td>PC 2대 + 망 2개</td><td>소프트웨어 기반</td></tr>
+          <tr><td>미국 연방정부</td><td>폐지</td><td>2024년까지 전환 의무</td></tr>
+        </tbody>
+      </table>
+
+      <h4>N2SF (국가망보안체계) — 이미 방향은 나왔다</h4>
+      <p>국정원이 2024년 발표한 N2SF는 데이터를 3등급으로 분류해서 등급별로 다른 보안을 적용하는 체계다. 망분리를 일률 적용하는 대신, 합리적으로 차등 보안하겠다는 방향이다.</p>
+      <div class="info-box">
+        <strong>C등급 — 공개 (전체의 ~80%)</strong>: AI 활용 허용. 클라우드 허용. 인터넷 허용. 일반 행정 업무.<br>
+        <strong>S등급 — 민감 (~15%)</strong>: 개인정보 등. 암호화 + 접근 통제. 승인된 AI 도구만 허용.<br>
+        <strong>TS등급 — 기밀 (~5%)</strong>: 국가 기밀. 물리적 분리 유지. AI 불허.
+      </div>
+      <p>방향은 맞다. 문제는 <strong>실제 전환이 너무 느리다</strong>는 것이다. 현장에서는 여전히 모든 업무를 기밀 수준으로 취급하고 100% 차단하고 있다. N2SF를 실제로 적용하면, 공무원 업무의 80%에서 AI와 인터넷을 쓸 수 있게 된다.</p>
+
+      <h3>에이전트 시대 보안 아키텍처</h3>
+      <p>AI 에이전트가 사람 대신 은행 업무를 처리하는 시대가 온다. 이때 필요한 보안은 4개 레이어로 구성된다.</p>
+
+      <div class="layer layer-1">
+        <h4>Layer 1: 신원 확인</h4>
+        <p><strong>FIDO2 + OAuth 위임 토큰</strong>. 사람은 지문으로 인증하고, AI 에이전트에게 "이 범위까지만 해도 돼"라는 토큰을 발급한다. 에이전트가 독자적으로 인증할 수 없다.</p>
+      </div>
+      <div class="layer layer-2">
+        <h4>Layer 2: 권한 관리</h4>
+        <p><strong>스코프 기반, 시간 제한</strong>. "잔액 조회만 가능, 30분 유효"처럼 최소 권한만 부여한다. 시간이 지나면 자동 만료.</p>
+      </div>
+      <div class="layer layer-3">
+        <h4>Layer 3: 행위 감시</h4>
+        <p><strong>FDS 확장, 실시간 이상행위 차단</strong>. 에이전트가 평소와 다른 패턴을 보이면 즉시 차단. "새벽 3시에 갑자기 해외 송금 10건"이면 멈춘다.</p>
+      </div>
+      <div class="layer layer-4">
+        <h4>Layer 4: API-first 서비스</h4>
+        <p>은행이 표준화된 API를 제공한다. 에이전트는 이 API만 사용할 수 있다. 화면 조작이 아닌 구조화된 통신. 보안도 쉬워지고 감시도 쉬워진다.</p>
+      </div>
+
+      <h3>이해관계자별 액션</h3>
+
+      <div class="stake">
+        <h4>국회</h4>
+        <ul>
+          <li>전자금융거래법 개정: 보안 프로그램 설치 의무 조항 삭제</li>
+          <li>전자금융사고 책임 전환: 금융기관 입증 책임 도입 (EU PSD2 수준)</li>
+          <li>공공기관 문서 표준 의무화: ODF 기반, HWP 독점 해소</li>
+        </ul>
+      </div>
+      <div class="stake">
+        <h4>금융위원회 / 행안부</h4>
+        <ul>
+          <li>보안성 심의 기준을 "프로그램 설치 여부"에서 "서버 측 탐지 능력"으로 전환</li>
+          <li>망분리 규제를 제로트러스트로 단계적 대체</li>
+          <li>FIDO2/패스키 인증 표준 채택 가이드라인 발표</li>
+        </ul>
+      </div>
+      <div class="stake">
+        <h4>은행</h4>
+        <ul>
+          <li>FDS(이상거래탐지시스템)를 실시간 AI 기반으로 고도화</li>
+          <li>대액 이체 지연 실행(냉각기간) 도입</li>
+          <li>패스키/생체인증으로 인증 체계 전환</li>
+          <li>오픈뱅킹 API 표준화 및 에이전트 대응</li>
+        </ul>
+      </div>
+      <div class="stake">
+        <h4>공공기관</h4>
+        <ul>
+          <li>C등급 업무(80%)에 AI/클라우드 즉시 허용</li>
+          <li>ODF 문서 표준 전환 (3년 로드맵)</li>
+          <li>제로트러스트 시범 적용 확대</li>
+        </ul>
+      </div>
+      <div class="stake">
+        <h4>시민</h4>
+        <ul>
+          <li>보안 프로그램 미설치로 인한 면책 거부 시 금감원 민원</li>
+          <li>패스키 사용 가능 서비스 적극 이용</li>
+          <li>불합리한 보안 관행에 목소리 내기</li>
+        </ul>
+      </div>
+
+      <h3>법률 개정 필요 사항</h3>
+      <table class="cmp-table">
+        <thead>
+          <tr><th>법률</th><th>현행</th><th>개정 방향</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>전자금융거래법</td><td>보안 프로그램 설치 권고(사실상 의무)</td><td>서버 측 보안 기준으로 전환</td></tr>
+          <tr><td>전자금융감독규정</td><td>보안성 심의에 클라이언트 보안 포함</td><td>서버 측 탐지/대응 능력 중심 심의</td></tr>
+          <tr><td>국가정보보안기본지침</td><td>망분리 의무</td><td>제로트러스트 허용, 등급별 차등 적용</td></tr>
+          <tr><td>전자정부법</td><td>HWP 호환 문서 허용</td><td>ODF 표준 의무화</td></tr>
+        </tbody>
+      </table>
+
+      <h3>로드맵</h3>
+      <div class="phase">
+        <h4>Phase 1: 6개월 (즉시 가능)</h4>
+        <ul>
+          <li>보안 프로그램 설치 의무 조항 삭제 (법 개정)</li>
+          <li>패스키/FIDO2 인증 가이드라인 발표</li>
+          <li>C등급 공공데이터 AI/클라우드 허용</li>
+          <li>대액 이체 냉각기간 도입 (30분~24시간)</li>
+        </ul>
+      </div>
+      <div class="phase">
+        <h4>Phase 2: 1년</h4>
+        <ul>
+          <li>주요 은행 FDS AI 고도화 완료</li>
+          <li>공공기관 제로트러스트 시범 확대 (10개 기관 이상)</li>
+          <li>금융사고 책임 전환법 시행 (은행 입증 책임)</li>
+          <li>ODF 문서 표준 전환 시작</li>
+        </ul>
+      </div>
+      <div class="phase">
+        <h4>Phase 3: 2년</h4>
+        <ul>
+          <li>전 금융기관 서버 측 보안 체계 전환 완료</li>
+          <li>공공기관 망분리 → 제로트러스트 전환 완료 (TS등급 제외)</li>
+          <li>AI 에이전트 대응 API 표준 확립</li>
+          <li>공공문서 ODF 완전 전환</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 4: 왜 지금 -->
+<section id="why-now" class="bg-lavender">
+  <div class="container">
+    <h2 class="section-title">왜 지금이야?</h2>
+    <p class="section-sub">바꿀 조건은 이미 갖춰졌다</p>
+
+    <div class="why-list">
+      <div class="why-item">
+        <div class="why-num">01</div>
+        <div class="why-text">
+          <h3>공인인증서는 이미 폐지됐다</h3>
+          <p>2020년 전자서명법 개정. 법적 근거는 이미 사라졌다.</p>
+        </div>
+      </div>
+      <div class="why-item">
+        <div class="why-num">02</div>
+        <div class="why-text">
+          <h3>지문 인식은 이미 내 폰에 있다</h3>
+          <p>패스키/FIDO2. 애플, 구글, 삼성 전부 지원한다. 기술은 준비됐다.</p>
+        </div>
+      </div>
+      <div class="why-item">
+        <div class="why-num">03</div>
+        <div class="why-text">
+          <h3>외국은 이미 다 바꿨다</h3>
+          <p>미국 2022년 제로트러스트 의무화. 영국, EU도 서버 측 보안으로 전환 완료.</p>
+        </div>
+      </div>
+      <div class="why-item">
+        <div class="why-num">04</div>
+        <div class="why-text">
+          <h3>외교부도 AI 사업을 시작했다</h3>
+          <p>2026년, 에이전틱 AI 도입 추진. 하지만 망분리 때문에 AI를 쓸 수 없는 모순.</p>
+        </div>
+      </div>
+      <div class="why-item">
+        <div class="why-num">05</div>
+        <div class="why-text">
+          <h3>안 바꾸면 AI 시대에서 배제된다</h3>
+          <p>AI 에이전트는 보안 프로그램을 설치할 수 없다. 지금 구조를 안 바꾸면 AI 경제에서 한국만 빠진다.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="big-text" style="background:rgba(255,255,255,.8)">
+      해킹당하면 은행이 책임지게 하면,<br>프로그램 5개는 내일이라도 사라진다.
+    </div>
+  </div>
+</section>
+
+<!-- 카드뉴스 캐러셀 -->
+<section class="bg-cream" style="padding-bottom:40px">
+  <div class="container">
+    <h2 class="section-title">카드뉴스</h2>
+    <p class="section-sub">좌우로 넘겨보세요</p>
+
+    <div class="card-grid">
+      <img src="img/instagram-cover.png" alt="카드뉴스: 프로그램 5개 깔라고?" style="border-radius:12px;box-shadow:0 4px 20px rgba(0,0,0,.08)">
+      <img src="img/instagram-comparison.png" alt="카드뉴스: 미국 vs 한국 비교" style="border-radius:12px;box-shadow:0 4px 20px rgba(0,0,0,.08)">
+      <img src="img/instagram-vishing.png" alt="카드뉴스: 보이스피싱 못 막는다" style="border-radius:12px;box-shadow:0 4px 20px rgba(0,0,0,.08)">
+      <img src="img/instagram-north-korea.png" alt="카드뉴스: 북한 해킹 통로" style="border-radius:12px;box-shadow:0 4px 20px rgba(0,0,0,.08)">
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq" class="bg-white">
+  <div class="container">
+    <h2 class="section-title">자주 묻는 질문</h2>
+    <p class="section-sub">더 궁금한 것들</p>
+
+    <div class="faq-item" onclick="this.classList.toggle('open')">
+      <div class="faq-q">외국 은행도 PKI(공개키 암호화)를 쓰나?</div>
+      <div class="faq-a">
+        SSL/TLS는 전 세계 모든 은행이 쓴다. 하지만 이건 <strong>서버 인증서</strong>다 — 은행 서버가 가지고 있고, 사용자 브라우저가 검증만 한다.<br><br>
+        한국이 특이한 건 <strong>사용자에게 개인키를 준 것</strong>이다. 외국 은행은 사용자 본인 확인을 비밀번호 + 생체인증(FIDO2)으로 한다. 사용자에게 암호화 키를 파일로 줘서 USB에 담아다니게 하는 나라는 한국뿐이다.<br><br>
+        외국 방식: 보안키는 서버가 관리. 사용자는 지문만 대면 됨. 잃어버릴 것이 없다.
+      </div>
+    </div>
+
+    <div class="faq-item" onclick="this.classList.toggle('open')">
+      <div class="faq-q">보안 프로그램을 없애면 해킹당하지 않나?</div>
+      <div class="faq-a">
+        다른 나라 은행은 보안 프로그램 0개를 설치하지만 한국보다 안전하다. 비결은 <strong>서버에서 막는 것</strong>이다.<br><br>
+        이상거래탐지(FDS), 지연이체, AI 통화 분석, 토큰화 — 전부 은행 서버에서 돌아간다. 사용자 PC에 뭘 깔든 안 깔든, 서버가 이상한 패턴을 잡아낸다.<br><br>
+        한국 방식(PC에 깔기)이 오히려 위험하다. KAIST가 19건의 취약점을 발견했고, 북한이 이걸로 실제 해킹했다.
+      </div>
+    </div>
+
+    <div class="faq-item" onclick="this.classList.toggle('open')">
+      <div class="faq-q">망분리를 없애면 공무원 PC가 해킹당하지 않나?</div>
+      <div class="faq-a">
+        망분리를 해놓고도 온나라시스템이 3년간 해킹당한 걸 몰랐다. 망분리 ≠ 안전.<br><br>
+        대안은 <strong>제로트러스트</strong>다. 인터넷은 허용하되, 모든 접속을 매번 검증한다. 이상행위를 실시간으로 감지한다. 미국 연방정부가 2022년부터 이 방식을 쓰고 있다.<br><br>
+        국정원도 N2SF(국가망보안체계)로 방향을 잡았다. 문제는 실행 속도다.
+      </div>
+    </div>
+
+    <div class="faq-item" onclick="this.classList.toggle('open')">
+      <div class="faq-q">N2SF가 뭐야?</div>
+      <div class="faq-a">
+        국정원이 2024년 발표한 <strong>국가망보안체계(National Network Security Framework)</strong>다.<br><br>
+        핵심은 데이터를 3등급으로 분류하는 것이다:<br>
+        - <strong>C등급 (공개, ~80%)</strong>: 인터넷·AI·클라우드 허용<br>
+        - <strong>S등급 (민감, ~15%)</strong>: 제한적 허용, 승인된 도구만<br>
+        - <strong>TS등급 (기밀, ~5%)</strong>: 물리적 분리 유지<br><br>
+        방향은 맞지만, 현장 전환이 너무 느리다. 실제로 적용하면 공무원 업무의 80%에서 AI를 쓸 수 있게 된다.
+      </div>
+    </div>
+
+    <div class="faq-item" onclick="this.classList.toggle('open')">
+      <div class="faq-q">AI 에이전트 시대에 보안은 어떻게 해?</div>
+      <div class="faq-a">
+        현재 구조는 "사람이 브라우저에서 직접 조작"하는 것을 전제한다. AI 에이전트는 프로그램을 설치할 수도, 마우스로 번호판을 클릭할 수도 없다.<br><br>
+        에이전트 시대 보안 구조:<br>
+        - <strong>API-first</strong>: 은행이 표준 API를 제공. 에이전트는 API로 접근<br>
+        - <strong>위임 토큰</strong>: 사람이 지문으로 인증 → 에이전트에 시간제한 권한 부여<br>
+        - <strong>행위 감시</strong>: 에이전트의 행동 패턴을 서버에서 실시간 감시<br>
+        - <strong>감사 추적</strong>: 모든 행위를 로깅, 사후 추적 가능
+      </div>
+    </div>
+
+    <div class="faq-item" onclick="this.classList.toggle('open')">
+      <div class="faq-q">외교부 AI 사업은 뭐야?</div>
+      <div class="faq-a">
+        2026년 3월, 외교부가 "외교 AI 2단계 사업"을 시작했다. 추론형 AI 모델 도입, 에이전틱 AI(여러 AI 에이전트가 자율 협력) 전환을 추진 중이다.<br><br>
+        하지만 <strong>모순</strong>이 있다. 외교부 직원의 업무 PC는 망분리로 인터넷이 차단돼 있다. AI 에이전트가 외부 정보를 수집하거나 클라우드 서비스에 접근할 수 없다. 에이전틱 AI가 성공하려면 제로트러스트 전환이 선행돼야 한다.
+      </div>
+    </div>
+
+    <div class="faq-item" onclick="this.classList.toggle('open')">
+      <div class="faq-q">HWP 대신 뭘 써야 해?</div>
+      <div class="faq-a">
+        <strong>작성</strong>: 웹 기반 에디터 (Google Docs처럼 브라우저에서 작성)<br>
+        <strong>저장</strong>: Markdown 또는 ODF (개방형, AI가 바로 읽을 수 있음)<br>
+        <strong>배포</strong>: PDF (어떤 기기에서든 무료로 열림)<br><br>
+        미국, 영국, EU 전부 이 방식이다. 특정 회사 프로그램이 없어도 누구나 열 수 있다.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 자료 & 출처 -->
+<section id="resources" class="bg-cream">
+  <div class="container">
+    <h2 class="section-title">출처</h2>
+    <ul class="res-list">
+      <li>금융감독원, "2023년 보이스피싱 피해 현황"</li>
+      <li>KAIST / USENIX Security 2025, "Too Much of a Good Thing" — <a href="https://syssec.kaist.ac.kr/pub/2025/Too_Much_Good.pdf" target="_blank">논문 PDF</a></li>
+      <li>Wladimir Palant, "South Korea's online security dead end" (2023) — <a href="https://palant.info/2023/01/02/south-koreas-online-security-dead-end/" target="_blank">원문</a></li>
+      <li>ESET, "Lazarus supply-chain attack in South Korea" (2020) — <a href="https://www.welivesecurity.com/2020/11/16/lazarus-supply-chain-attack-south-korea/" target="_blank">원문</a></li>
+      <li>NIST SP 800-207, "Zero Trust Architecture" (2020)</li>
+      <li>Biden Executive Order 14028, "Improving the Nation's Cybersecurity" (2021)</li>
+      <li>EU PSD2 (Payment Services Directive 2)</li>
+      <li>국정원, N2SF 국가망보안체계 (2024)</li>
+      <li>외교부, "외교 AI 2단계 사업 착수" (2026) — <a href="https://de.mofa.go.kr/www/brd/m_4080/view.do?seq=376983" target="_blank">보도자료</a></li>
+    </ul>
+  </div>
+</section>
+
+<!-- FOOTER -->
 <footer>
-  <p>이 자료는 자유롭게 공유, 인용, 활용할 수 있습니다.</p>
-  <p style="margin-top:8px">2026년 3월 · <a href="https://github.com/hohyon-ryu/korean-security-galapagos" target="_blank">GitHub</a></p>
+  이 자료는 자유롭게 공유, 인용, 활용할 수 있습니다. | 2026년 3월 | <a href="https://github.com/hohyon-ryu/korean-security-galapagos" target="_blank" style="color:#7B68B8">GitHub</a>
 </footer>
+
+<script>
+function toggleDeep(id) {
+  var el = document.getElementById(id);
+  var btn = el.previousElementSibling;
+  if (el.style.display === 'none' || !el.style.display) {
+    el.style.display = 'block';
+    btn.textContent = '접기 ▲';
+  } else {
+    el.style.display = 'none';
+    btn.textContent = '더 깊이 보기 ▼';
+  }
+}
+
+// Smooth scroll for nav links
+document.querySelectorAll('.nav-links a').forEach(function(link) {
+  link.addEventListener('click', function(e) {
+    e.preventDefault();
+    var target = document.querySelector(this.getAttribute('href'));
+    if (target) {
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  });
+});
+</script>
 
 </body>
 </html>
