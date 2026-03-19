@@ -165,7 +165,9 @@ footer{text-align:center;padding:40px 24px;font-size:14px;color:#888;background:
 .bg-cream{background:#FFFBF5}
 
 /* MOBILE */
+#downloads .card-grid{grid-template-columns:repeat(4,1fr)}
 @media(max-width:768px){
+  #downloads .card-grid{grid-template-columns:repeat(2,1fr)}
   .card-grid,.sol-grid{grid-template-columns:1fr}
   .compare{grid-template-columns:1fr}
   .nav-links{gap:12px;font-size:13px}
@@ -193,6 +195,35 @@ footer{text-align:center;padding:40px 24px;font-size:14px;color:#888;background:
     <a href="https://github.com/hohyon-ryu/korean-security-galapagos" target="_blank" class="nav-gh">GitHub</a>
   </div>
 </nav>
+
+<!-- 보고서 다운로드 -->
+<section id="downloads" style="padding:48px 24px 32px;background:#fff">
+  <div class="container">
+    <h2 class="section-title" style="font-size:24px;margin-bottom:20px">보고서</h2>
+    <div class="card-grid" style="grid-template-columns:repeat(4,1fr);gap:14px">
+      <a href="pdf/발표자료_결제보안.pdf" target="_blank" style="text-decoration:none;display:block;padding:20px 16px;border-radius:14px;background:linear-gradient(135deg,#FFF3EB,#FFE8E0);text-align:center;box-shadow:0 2px 12px rgba(0,0,0,.06);transition:transform .2s">
+        <div style="font-size:36px;margin-bottom:8px">📊</div>
+        <div style="font-size:14px;font-weight:700;color:#E8706A;margin-bottom:4px">발표자료</div>
+        <div style="font-size:12px;color:#888">결제보안 슬라이드 20p</div>
+      </a>
+      <a href="pdf/분석보고서_결제보안.pdf" target="_blank" style="text-decoration:none;display:block;padding:20px 16px;border-radius:14px;background:linear-gradient(135deg,#F2EEFC,#EAE4FA);text-align:center;box-shadow:0 2px 12px rgba(0,0,0,.06);transition:transform .2s">
+        <div style="font-size:36px;margin-bottom:8px">📄</div>
+        <div style="font-size:14px;font-weight:700;color:#7B68B8;margin-bottom:4px">분석보고서</div>
+        <div style="font-size:12px;color:#888">결제보안 갈라파고스</div>
+      </a>
+      <a href="pdf/종합보고서_공문서전환.pdf" target="_blank" style="text-decoration:none;display:block;padding:20px 16px;border-radius:14px;background:linear-gradient(135deg,#FFF8F0,#FFF0E0);text-align:center;box-shadow:0 2px 12px rgba(0,0,0,.06);transition:transform .2s">
+        <div style="font-size:36px;margin-bottom:8px">📄</div>
+        <div style="font-size:14px;font-weight:700;color:#D88050;margin-bottom:4px">종합보고서</div>
+        <div style="font-size:12px;color:#888">공문서 HWP 전환</div>
+      </a>
+      <a href="pdf/종합보고서_행정보안프로그램.pdf" target="_blank" style="text-decoration:none;display:block;padding:20px 16px;border-radius:14px;background:linear-gradient(135deg,#EBFAF5,#E0F5ED);text-align:center;box-shadow:0 2px 12px rgba(0,0,0,.06);transition:transform .2s">
+        <div style="font-size:36px;margin-bottom:8px">📄</div>
+        <div style="font-size:14px;font-weight:700;color:#2DAA78;margin-bottom:4px">종합보고서</div>
+        <div style="font-size:12px;color:#888">행정보안프로그램</div>
+      </a>
+    </div>
+  </div>
+</section>
 
 <!-- HERO -->
 <section class="hero">
@@ -708,31 +739,7 @@ footer{text-align:center;padding:40px 24px;font-size:14px;color:#888;background:
   </div>
 </section>
 
-<!-- 자료 다운로드 -->
-<section id="downloads" class="bg-cream" style="padding-bottom:20px">
-  <div class="container">
-    <h2 class="section-title">보고서 다운로드</h2>
-    <p class="section-sub">PDF로 전체 내용을 보실 수 있습니다</p>
-    <div class="card-grid">
-      <a href="pdf/발표자료_결제보안.pdf" target="_blank" class="card coral" style="text-decoration:none">
-        <h3>결제보안 발표자료</h3>
-        <p>한국 보안의 갈라파고스 — 어디서부터 잘못됐나 (20페이지 슬라이드)</p>
-      </a>
-      <a href="pdf/분석보고서_결제보안.pdf" target="_blank" class="card lavender" style="text-decoration:none">
-        <h3>결제보안 분석보고서</h3>
-        <p>한국 결제보안 갈라파고스 종합 분석</p>
-      </a>
-      <a href="pdf/종합보고서_공문서전환.pdf" target="_blank" class="card peach" style="text-decoration:none">
-        <h3>공문서 전환 보고서</h3>
-        <p>HWP → 개방형 포맷(Markdown, PDF) 전환 종합 보고서</p>
-      </a>
-      <a href="pdf/종합보고서_행정보안프로그램.pdf" target="_blank" class="card mint" style="text-decoration:none">
-        <h3>행정보안프로그램 보고서</h3>
-        <p>클라이언트 보안프로그램 과잉 → 서버사이드 전환 종합 보고서</p>
-      </a>
-    </div>
-  </div>
-</section>
+<!-- 자료 다운로드 (네비에서 점프용, 실제 콘텐츠는 히어로 위에) -->
 
 <!-- 출처 -->
 <section id="resources" class="bg-cream">
