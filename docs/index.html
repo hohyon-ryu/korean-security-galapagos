@@ -143,13 +143,14 @@ section{padding:80px 24px;margin-bottom:2px}
 .faq-item.open .faq-a{display:block}
 
 /* CAROUSEL */
-.carousel{position:relative;max-width:540px;margin:0 auto;overflow:hidden;border-radius:16px;box-shadow:0 4px 24px rgba(0,0,0,.1)}
+.carousel{position:relative;max-width:540px;margin:0 auto;border-radius:16px;box-shadow:0 4px 24px rgba(0,0,0,.1)}.carousel-inner{overflow:hidden;border-radius:16px}
 .carousel-track{display:flex;transition:transform .3s ease}
 .carousel-track img{min-width:100%;height:auto;display:block;border-radius:0;box-shadow:none}
-.carousel-btn{position:absolute;top:50%;transform:translateY(-50%);background:rgba(255,255,255,.85);border:none;width:40px;height:40px;border-radius:50%;font-size:20px;cursor:pointer;z-index:2;box-shadow:0 2px 8px rgba(0,0,0,.15)}
-.carousel-btn:hover{background:#fff}
-.carousel-prev{left:8px}
-.carousel-next{right:8px}
+.carousel-btn{position:absolute;top:50%;transform:translateY(-50%);background:rgba(255,255,255,.3);border:none;width:48px;height:48px;border-radius:50%;font-size:28px;cursor:pointer;z-index:2;color:rgba(0,0,0,.4);transition:all .2s}
+.carousel-btn:hover{background:rgba(255,255,255,.7);color:rgba(0,0,0,.7)}
+.carousel-prev{left:-56px}
+.carousel-next{right:-56px}
+@media(max-width:640px){.carousel-prev{left:6px}.carousel-next{right:6px}}
 .carousel-dots{text-align:center;padding:12px 0}
 .carousel-dots span{display:inline-block;width:8px;height:8px;border-radius:50%;background:#ddd;margin:0 4px;cursor:pointer}
 .carousel-dots span.active{background:#E8706A}
@@ -186,6 +187,7 @@ footer{text-align:center;padding:40px 24px;font-size:14px;color:#888;background:
       <a href="#solution">해결책</a>
       <a href="#why-now">왜 지금</a>
       <a href="#faq">FAQ</a>
+      <a href="#downloads">보고서</a>
       <a href="#resources">출처</a>
     </div>
     <a href="https://github.com/hohyon-ryu/korean-security-galapagos" target="_blank" class="nav-gh">GitHub</a>
@@ -201,9 +203,9 @@ footer{text-align:center;padding:40px 24px;font-size:14px;color:#888;background:
     <div class="hero-big">프로그램 5개 깔라고?</div>
     <p>공동인증서 비밀번호에 보안카드 번호에 OTP에 SMS 인증에...<br>외국에선 지문 찍으면 끝인데. 한국만 25년째.</p>
     <div class="carousel" id="newsCarousel" style="margin-top:40px">
-      <div class="carousel-track" id="carouselTrack">
+      <div class="carousel-inner"><div class="carousel-track" id="carouselTrack">
         <img src="img/01.png" alt="카드뉴스 1"><img src="img/02.png" alt="카드뉴스 2"><img src="img/03.png" alt="카드뉴스 3"><img src="img/04.png" alt="카드뉴스 4"><img src="img/05.png" alt="카드뉴스 5"><img src="img/06.png" alt="카드뉴스 6"><img src="img/07.png" alt="카드뉴스 7"><img src="img/08.png" alt="카드뉴스 8"><img src="img/09.png" alt="카드뉴스 9"><img src="img/10.png" alt="카드뉴스 10">
-      </div>
+      </div></div>
       <button class="carousel-btn carousel-prev" onclick="moveCarousel(-1)">&#8249;</button>
       <button class="carousel-btn carousel-next" onclick="moveCarousel(1)">&#8250;</button>
     </div>
@@ -707,7 +709,7 @@ footer{text-align:center;padding:40px 24px;font-size:14px;color:#888;background:
 </section>
 
 <!-- 자료 다운로드 -->
-<section class="bg-cream" style="padding-bottom:20px">
+<section id="downloads" class="bg-cream" style="padding-bottom:20px">
   <div class="container">
     <h2 class="section-title">보고서 다운로드</h2>
     <p class="section-sub">PDF로 전체 내용을 보실 수 있습니다</p>
