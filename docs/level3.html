@@ -1,0 +1,949 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>정책 입안자 편 — AI 시대 대한민국 IT 인프라 전환 실행 계획</title>
+<meta name="description" content="결제 보안, 망분리, 공문서, 보안프로그램 — 구체적 전환 로드맵, 담당 기관, 법률 개정 사항 총정리">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --cream: #FFFBF5;
+  --mint-bg: #EBFAF5;
+  --lavender-bg: #F2EEFC;
+  --peach-bg: #FFF3EB;
+  --coral: #E8706A;
+  --mint: #2DAA78;
+  --lavender: #7B68B8;
+  --peach: #D88050;
+  --text: #1a1a1a;
+  --text-light: #555;
+  --text-muted: #888;
+  --border: #E8E4E0;
+  --radius: 16px;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo",
+    "Noto Sans KR", "Malgun Gothic", sans-serif;
+  background: var(--cream);
+  color: var(--text);
+  line-height: 1.75;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── Nav ── */
+nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(255,251,245,0.92);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--border);
+  padding: 0 16px;
+}
+
+.nav-inner {
+  max-width: 900px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 0;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.nav-inner::-webkit-scrollbar { display: none; }
+
+.nav-link {
+  display: block;
+  padding: 14px 16px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-light);
+  text-decoration: none;
+  white-space: nowrap;
+  border-bottom: 3px solid transparent;
+  transition: color .2s, border-color .2s;
+}
+
+.nav-link:hover { color: var(--coral); }
+.nav-link.active {
+  color: var(--lavender);
+  border-bottom-color: var(--lavender);
+}
+
+.nav-home {
+  font-weight: 500;
+  color: var(--mint);
+  margin-right: auto;
+}
+.nav-home:hover { color: var(--coral); }
+
+/* ── Layout ── */
+.wrap { max-width: 800px; margin: 0 auto; padding: 0 20px; }
+
+section { padding: 56px 0; }
+section + section { border-top: 1px solid var(--border); }
+
+.section-label {
+  display: inline-block;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: .04em;
+  padding: 4px 12px;
+  border-radius: 20px;
+  margin-bottom: 16px;
+}
+
+.label-coral { color: var(--coral); background: var(--peach-bg); }
+.label-mint { color: var(--mint); background: var(--mint-bg); }
+.label-lavender { color: var(--lavender); background: var(--lavender-bg); }
+.label-peach { color: var(--peach); background: var(--peach-bg); }
+
+h2 {
+  font-size: clamp(22px, 5vw, 30px);
+  font-weight: 800;
+  line-height: 1.35;
+  margin-bottom: 12px;
+  word-break: keep-all;
+}
+
+h2 em { font-style: normal; }
+
+.section-desc {
+  font-size: 16px;
+  color: var(--text-light);
+  margin-bottom: 32px;
+  word-break: keep-all;
+}
+
+h3 {
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  word-break: keep-all;
+}
+
+/* ── Hero ── */
+.hero {
+  padding: 80px 0 56px;
+  text-align: center;
+}
+
+.hero h1 {
+  font-size: clamp(28px, 6vw, 44px);
+  font-weight: 900;
+  line-height: 1.3;
+  margin-bottom: 20px;
+  word-break: keep-all;
+}
+
+.hero h1 em {
+  font-style: normal;
+  color: var(--lavender);
+}
+
+.hero-sub {
+  font-size: clamp(16px, 3.5vw, 20px);
+  color: var(--text-light);
+  max-width: 560px;
+  margin: 0 auto;
+  word-break: keep-all;
+}
+
+.hero-badge {
+  display: inline-block;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--lavender);
+  background: var(--lavender-bg);
+  padding: 6px 16px;
+  border-radius: 20px;
+  margin-bottom: 20px;
+}
+
+/* ── Phase Timeline ── */
+.phase-timeline {
+  position: relative;
+  padding-left: 28px;
+}
+
+.phase-timeline::before {
+  content: '';
+  position: absolute;
+  left: 6px;
+  top: 8px;
+  bottom: 8px;
+  width: 2px;
+  background: var(--border);
+  border-radius: 2px;
+}
+
+.phase {
+  position: relative;
+  margin-bottom: 32px;
+}
+
+.phase:last-child { margin-bottom: 0; }
+
+.phase::before {
+  content: '';
+  position: absolute;
+  left: -25px;
+  top: 10px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 3px solid var(--lavender);
+  background: #fff;
+}
+
+.phase.p1::before { border-color: var(--mint); }
+.phase.p2::before { border-color: var(--peach); }
+.phase.p3::before { border-color: var(--lavender); }
+
+.phase-header {
+  font-size: 15px;
+  font-weight: 800;
+  margin-bottom: 8px;
+}
+
+.phase.p1 .phase-header { color: var(--mint); }
+.phase.p2 .phase-header { color: var(--peach); }
+.phase.p3 .phase-header { color: var(--lavender); }
+
+.phase ul {
+  list-style: none;
+  padding: 0;
+}
+
+.phase li {
+  position: relative;
+  padding-left: 20px;
+  margin-bottom: 8px;
+  font-size: 15px;
+  color: var(--text-light);
+  word-break: keep-all;
+}
+
+.phase li::before {
+  content: '';
+  position: absolute;
+  left: 2px;
+  top: 9px;
+  width: 8px;
+  height: 8px;
+  border-radius: 2px;
+}
+
+.phase.p1 li::before { background: var(--mint); opacity: .3; }
+.phase.p2 li::before { background: var(--peach); opacity: .3; }
+.phase.p3 li::before { background: var(--lavender); opacity: .3; }
+
+.phase li strong {
+  color: var(--text);
+  font-weight: 600;
+}
+
+/* ── Grade Cards ── */
+.grade-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+  margin-bottom: 28px;
+}
+
+.grade-card {
+  border-radius: var(--radius);
+  padding: 24px 20px;
+}
+
+.grade-card.c { background: var(--mint-bg); border-left: 4px solid var(--mint); }
+.grade-card.s { background: var(--peach-bg); border-left: 4px solid var(--peach); }
+.grade-card.ts { background: #FCEBEB; border-left: 4px solid var(--coral); }
+
+.grade-label {
+  font-size: 14px;
+  font-weight: 800;
+  margin-bottom: 6px;
+}
+
+.grade-card.c .grade-label { color: var(--mint); }
+.grade-card.s .grade-label { color: var(--peach); }
+.grade-card.ts .grade-label { color: var(--coral); }
+
+.grade-card p {
+  font-size: 14px;
+  color: var(--text-light);
+  word-break: keep-all;
+}
+
+/* ── Highlight Box ── */
+.highlight-box {
+  border-radius: var(--radius);
+  padding: 24px;
+  margin-bottom: 28px;
+}
+
+.highlight-box.mint { background: var(--mint-bg); }
+.highlight-box.lavender { background: var(--lavender-bg); }
+.highlight-box.peach { background: var(--peach-bg); }
+
+.highlight-box p, .highlight-box li {
+  font-size: 15px;
+  color: var(--text-light);
+  word-break: keep-all;
+}
+
+.highlight-box strong { color: var(--text); }
+
+/* ── Layer Cards ── */
+.layer-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 28px;
+}
+
+.layer-card {
+  border-radius: var(--radius);
+  padding: 20px;
+  background: #fff;
+  border: 1px solid var(--border);
+  box-shadow: 0 2px 8px rgba(0,0,0,.04);
+}
+
+.layer-num {
+  font-size: 12px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: .05em;
+  margin-bottom: 4px;
+}
+
+.layer-card:nth-child(1) .layer-num { color: var(--mint); }
+.layer-card:nth-child(2) .layer-num { color: var(--peach); }
+.layer-card:nth-child(3) .layer-num { color: var(--coral); }
+.layer-card:nth-child(4) .layer-num { color: var(--lavender); }
+
+.layer-card h4 {
+  font-size: 16px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.layer-card ul {
+  list-style: none;
+  padding: 0;
+}
+
+.layer-card li {
+  font-size: 14px;
+  color: var(--text-light);
+  padding: 3px 0;
+  word-break: keep-all;
+}
+
+/* ── Table ── */
+.table-wrap {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  margin-bottom: 28px;
+  border-radius: var(--radius);
+  box-shadow: 0 2px 8px rgba(0,0,0,.04);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+  min-width: 600px;
+  background: #fff;
+}
+
+thead th {
+  background: var(--lavender-bg);
+  color: var(--lavender);
+  font-weight: 700;
+  padding: 14px 16px;
+  text-align: left;
+  white-space: nowrap;
+}
+
+tbody td {
+  padding: 12px 16px;
+  border-bottom: 1px solid #f0ece8;
+  color: var(--text-light);
+  word-break: keep-all;
+  vertical-align: top;
+}
+
+tbody tr:last-child td { border-bottom: none; }
+tbody tr:hover { background: var(--cream); }
+
+/* ── Example Cards ── */
+.example-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+  margin-bottom: 28px;
+}
+
+.example-card {
+  background: #fff;
+  border-radius: var(--radius);
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(0,0,0,.04);
+}
+
+.example-card .icon { font-size: 28px; margin-bottom: 8px; }
+.example-card h4 { font-size: 15px; font-weight: 700; margin-bottom: 6px; }
+.example-card p { font-size: 14px; color: var(--text-light); word-break: keep-all; }
+
+/* ── Country Cards ── */
+.country-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 16px;
+  margin-bottom: 28px;
+}
+
+.country-card {
+  border-radius: var(--radius);
+  padding: 24px 20px;
+  background: #fff;
+  border: 1px solid var(--border);
+}
+
+.country-flag { font-size: 28px; margin-bottom: 8px; }
+.country-card h4 { font-size: 17px; font-weight: 700; margin-bottom: 8px; }
+
+.country-card ul {
+  list-style: none;
+  padding: 0;
+}
+
+.country-card li {
+  font-size: 14px;
+  color: var(--text-light);
+  padding: 4px 0;
+  padding-left: 16px;
+  position: relative;
+  word-break: keep-all;
+}
+
+.country-card li::before {
+  content: '>';
+  position: absolute;
+  left: 0;
+  color: var(--mint);
+  font-weight: 700;
+  font-size: 12px;
+}
+
+/* ── References ── */
+.ref-list {
+  list-style: none;
+  padding: 0;
+}
+
+.ref-list li {
+  font-size: 14px;
+  color: var(--text-light);
+  padding: 8px 0;
+  border-bottom: 1px solid #f0ece8;
+  word-break: keep-all;
+}
+
+.ref-list li:last-child { border-bottom: none; }
+
+.ref-list a {
+  color: var(--lavender);
+  text-decoration: none;
+}
+
+.ref-list a:hover { text-decoration: underline; }
+
+/* ── Download Section ── */
+.download-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 12px;
+}
+
+.dl-card {
+  display: block;
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px;
+  text-decoration: none;
+  text-align: center;
+  transition: transform .2s, box-shadow .2s;
+}
+
+.dl-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0,0,0,.08);
+}
+
+.dl-card .icon { font-size: 24px; margin-bottom: 6px; }
+.dl-card p { font-size: 14px; font-weight: 600; color: var(--text); }
+.dl-card span { font-size: 12px; color: var(--text-muted); }
+
+/* ── Footer ── */
+footer {
+  text-align: center;
+  padding: 40px 20px;
+  font-size: 13px;
+  color: var(--text-muted);
+  border-top: 1px solid var(--border);
+}
+
+/* ── Responsive ── */
+@media (max-width: 600px) {
+  section { padding: 40px 0; }
+  .hero { padding: 56px 0 40px; }
+  .grade-grid { grid-template-columns: 1fr; }
+  .example-grid { grid-template-columns: 1fr; }
+  .country-grid { grid-template-columns: 1fr; }
+  .nav-link { padding: 12px 10px; font-size: 13px; }
+}
+</style>
+</head>
+<body>
+
+<!-- Nav -->
+<nav>
+  <div class="nav-inner">
+    <a href="index.html" class="nav-link nav-home">종합 보고서</a>
+    <a href="level1.html" class="nav-link">← 시민 편</a>
+    <a href="level2.html" class="nav-link">← 행동가 편</a>
+    <a href="level3.html" class="nav-link active">정책 입안자 편</a>
+  </div>
+</nav>
+
+<!-- Hero -->
+<header class="hero wrap">
+  <div class="hero-badge">Level 3 — 정책 입안자를 위한 실행 계획</div>
+  <h1><em>구체적으로</em> 누가, 무엇을, 언제</h1>
+  <p class="hero-sub">AI 시대 대한민국 IT 인프라 전환 실행 계획</p>
+</header>
+
+<!-- Section 1: 결제 보안 전환 로드맵 -->
+<section>
+  <div class="wrap">
+    <span class="section-label label-coral">Section 1</span>
+    <h2>결제 보안 전환 로드맵</h2>
+    <p class="section-desc">금융 IT 보안 체계를 클라이언트 프로그램 의존에서 서버 기반 국제 표준으로 전환하는 3단계 계획</p>
+
+    <div class="phase-timeline">
+      <div class="phase p1">
+        <div class="phase-header">Phase 1 — 6개월 (즉시 실행)</div>
+        <ul>
+          <li><strong>금감원:</strong> 보안프로그램 설치 의무 규정 유예 고시 발령</li>
+          <li><strong>은행:</strong> FIDO2/패스키 시범 도입 (카카오뱅크, 토스뱅크 선행)</li>
+          <li><strong>금융위:</strong> PCI DSS 준수 시 클라이언트 프로그램 면제 제도 도입</li>
+        </ul>
+      </div>
+
+      <div class="phase p2">
+        <div class="phase-header">Phase 2 — 1년 (법적 기반 마련)</div>
+        <ul>
+          <li><strong>전자금융거래법 개정:</strong> 목표 기반 규제로 전환 — "키보드 보안 프로그램 설치" → "키 입력 보호 달성"</li>
+          <li><strong>사고 책임 전환:</strong> EU PSD2 모델 도입 (금융기관 책임 원칙)</li>
+          <li><strong>보안프로그램의 HTTPS 중간 해독 금지</strong> 규정 신설</li>
+        </ul>
+      </div>
+
+      <div class="phase p3">
+        <div class="phase-header">Phase 3 — 2년 (전면 전환 완료)</div>
+        <ul>
+          <li>전 금융기관 <strong>서버측 보안 전환 완료</strong></li>
+          <li><strong>토큰화(Tokenization) 의무화</strong> — 카드번호 직접 전송 금지</li>
+          <li>글로벌 결제사(Stripe 등) 진입 허용을 위한 <strong>전자금융거래법 추가 개정</strong></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Section 2: 망분리 → 제로트러스트 전환 로드맵 -->
+<section>
+  <div class="wrap">
+    <span class="section-label label-mint">Section 2</span>
+    <h2>망분리 → 제로트러스트 전환 로드맵</h2>
+    <p class="section-desc">모든 업무를 동일 수준으로 차단하는 방식에서, 데이터 등급에 따라 차등 보호하는 체계로 전환</p>
+
+    <h3>핵심 원칙: 3등급 분류</h3>
+    <div class="grade-grid">
+      <div class="grade-card c">
+        <div class="grade-label">C등급 — 일반 행정 (80%)</div>
+        <p>제로트러스트로 전환. 인터넷 + AI 도구 완전 허용. 클라우드 기반 업무 환경.</p>
+      </div>
+      <div class="grade-card s">
+        <div class="grade-label">S등급 — 민감 업무 (15%)</div>
+        <p>제한적 인터넷. 승인된 AI 도구만 허용. 데이터 분류에 따른 접근 제어.</p>
+      </div>
+      <div class="grade-card ts">
+        <div class="grade-label">TS등급 — 국가 기밀 (5%)</div>
+        <p>물리적 분리 유지. 전용 네트워크. 기존 방식 그대로.</p>
+      </div>
+    </div>
+
+    <div class="highlight-box lavender">
+      <h3>외교부, 국방부 등 고보안 기관</h3>
+      <ul style="list-style:none;padding:0;">
+        <li style="padding:4px 0;"><strong>현재:</strong> 모든 업무를 TS 수준으로 취급 → 100% 차단</li>
+        <li style="padding:4px 0;"><strong>전환 후:</strong> 실제 기밀 5%만 물리적 분리, 나머지 95%는 AI 활용 가능</li>
+        <li style="padding:4px 0;"><strong>외교부 AI 2단계 사업(에이전틱 AI)이 성공하려면 제로트러스트 전환 필수</strong></li>
+      </ul>
+    </div>
+
+    <div class="phase-timeline">
+      <div class="phase p1">
+        <div class="phase-header">Phase 1 — 6개월 (시범 전환)</div>
+        <ul>
+          <li><strong>국정원:</strong> N2SF 가이드라인 실제 적용 가속화</li>
+          <li><strong>행안부:</strong> 일반 행정부서 시범 전환 (서울시, 세종시)</li>
+          <li><strong>범정부:</strong> 데이터 등급 분류 기준 수립</li>
+        </ul>
+      </div>
+
+      <div class="phase p2">
+        <div class="phase-header">Phase 2 — 1년 (중앙부처 전환)</div>
+        <ul>
+          <li>중앙부처 일반 행정(C등급) <strong>전면 전환</strong></li>
+          <li>AI 도구 업무 활용 <strong>가이드라인 수립</strong></li>
+          <li>모바일 공무원증 기반 <strong>다중인증(FIDO2) 도입</strong></li>
+        </ul>
+      </div>
+
+      <div class="phase p3">
+        <div class="phase-header">Phase 3 — 2년 (전면 확산)</div>
+        <ul>
+          <li>지방자치단체 <strong>전면 전환</strong></li>
+          <li>외교부, 국방부 S등급 업무 <strong>제한적 전환</strong></li>
+          <li>온나라시스템 <strong>GPKI → FIDO2 인증 전환 완료</strong></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Section 3: 공문서 포맷 전환 로드맵 -->
+<section>
+  <div class="wrap">
+    <span class="section-label label-lavender">Section 3</span>
+    <h2>공문서 포맷 전환 로드맵</h2>
+    <p class="section-desc">HWP 단일 포맷 의존을 해소하고, AI가 읽고 분석할 수 있는 개방형 포맷으로 전환</p>
+
+    <div class="phase-timeline">
+      <div class="phase p1">
+        <div class="phase-header">Phase 1 — 6개월 (제도 기반)</div>
+        <ul>
+          <li><strong>행안부:</strong> 행정업무운영규정 개정 — Markdown/PDF 허용</li>
+          <li><strong>시민 배포 문서:</strong> PDF/HTML 의무, HWP only 금지</li>
+        </ul>
+      </div>
+
+      <div class="phase p2">
+        <div class="phase-header">Phase 2 — 1년 (시스템 전환)</div>
+        <ul>
+          <li>온나라 문서시스템에 <strong>Markdown 기반 에디터 지원</strong></li>
+          <li>기존 HWP 문서 → <strong>PDF 일괄 변환</strong> (AI 활용)</li>
+        </ul>
+      </div>
+
+      <div class="phase p3">
+        <div class="phase-header">Phase 3 — 2년 (완전 전환)</div>
+        <ul>
+          <li><strong>HWP 신규 작성 완전 중단</strong></li>
+          <li>수십 년간 축적된 공공문서 <strong>AI 검색, 분석 가능</strong></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Section 4: 행정 보안프로그램 정상화 -->
+<section>
+  <div class="wrap">
+    <span class="section-label label-peach">Section 4</span>
+    <h2>행정 보안프로그램 정상화</h2>
+    <p class="section-desc">실효성 없는 클라이언트 보안프로그램 남용을 종식하고, 서버사이드 보안 체계로 전환</p>
+
+    <div class="phase-timeline">
+      <div class="phase p1">
+        <div class="phase-header">Phase 1 — 6개월 (즉시 축소)</div>
+        <ul>
+          <li><strong>행안부:</strong> 보안프로그램 10종 → 5종 이내 축소 지침</li>
+          <li><strong>독립적 보안 감사 체계</strong> 도입</li>
+        </ul>
+      </div>
+
+      <div class="phase p2">
+        <div class="phase-header">Phase 2 — 1년 (체계 전환)</div>
+        <ul>
+          <li>클라이언트 보안 → <strong>서버사이드 보안 전환</strong></li>
+          <li>보안프로그램 <strong>실효성 검증 의무화</strong></li>
+        </ul>
+      </div>
+
+      <div class="phase p3">
+        <div class="phase-header">Phase 3 — 2년 (최소화 완료)</div>
+        <ul>
+          <li>제로트러스트 기반 <strong>보안 체계 완성</strong></li>
+          <li>클라이언트 프로그램 <strong>최소화</strong> (백신 1종 수준)</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Section 5: 에이전트 시대 보안·접근 구조 -->
+<section>
+  <div class="wrap">
+    <span class="section-label label-lavender">Section 5</span>
+    <h2>에이전트 시대 보안 및 접근 구조</h2>
+    <p class="section-desc">AI 에이전트가 사람을 대리하여 업무를 수행하는 시대에 맞는 보안 아키텍처</p>
+
+    <div class="highlight-box peach">
+      <h3 style="margin-bottom:12px;">현재 구조의 한계</h3>
+      <ul style="list-style:none;padding:0;">
+        <li style="padding:4px 0;">사람이 브라우저에서 직접 조작하는 것을 전제로 설계됨</li>
+        <li style="padding:4px 0;">"프로그램 설치 → 클릭 → 인증서 비밀번호" = <strong>AI 에이전트가 수행 불가</strong></li>
+        <li style="padding:4px 0;">망분리 = <strong>에이전트가 외부 정보 수집, 연동 자체 불가</strong></li>
+      </ul>
+    </div>
+
+    <h3 style="margin-bottom:16px;">에이전트 시대 보안 아키텍처 (4 Layer)</h3>
+    <div class="layer-stack">
+      <div class="layer-card">
+        <div class="layer-num">Layer 1</div>
+        <h4>신원 확인 (Identity)</h4>
+        <ul>
+          <li><strong>사람:</strong> FIDO2 패스키 (지문/얼굴)</li>
+          <li><strong>에이전트:</strong> OAuth 2.0 + 위임 토큰 (사람이 FIDO2로 인증 → 에이전트에 시간제한 권한 부여)</li>
+          <li><strong>디바이스:</strong> 기기 인증서 (TPM/Secure Enclave)</li>
+        </ul>
+      </div>
+
+      <div class="layer-card">
+        <div class="layer-num">Layer 2</div>
+        <h4>권한 관리 (Authorization)</h4>
+        <ul>
+          <li><strong>스코프 기반:</strong> 에이전트마다 할 수 있는 일의 범위를 명시 (예: "잔액 조회만 가능", "100만 원 이하 이체만 가능")</li>
+          <li><strong>시간 제한:</strong> 토큰 유효기간 설정 (예: 1시간)</li>
+          <li><strong>컨텍스트 인식:</strong> 시간, 위치, 디바이스에 따른 동적 권한 조정</li>
+        </ul>
+      </div>
+
+      <div class="layer-card">
+        <div class="layer-num">Layer 3</div>
+        <h4>행위 감시 (Behavior Monitoring)</h4>
+        <ul>
+          <li>"누구인가"가 아니라 <strong>"무엇을 하는가"</strong>로 판단</li>
+          <li>이상거래탐지(FDS) 확장: 에이전트의 행위 패턴 모니터링</li>
+          <li>실시간 이상행위 차단 + 사후 감사 추적(Audit Trail)</li>
+        </ul>
+      </div>
+
+      <div class="layer-card">
+        <div class="layer-num">Layer 4</div>
+        <h4>API 기반 서비스 (API-first)</h4>
+        <ul>
+          <li>은행, 공공 서비스: 웹 UI 뿐 아니라 <strong>API 엔드포인트 제공</strong></li>
+          <li>에이전트가 프로그래밍 방식으로 서비스에 접근 가능</li>
+          <li>표준 프로토콜: OpenAPI, OAuth 2.0, WebAuthn</li>
+        </ul>
+      </div>
+    </div>
+
+    <h3 style="margin-bottom:12px;">공공기관 에이전트 활용 예시</h3>
+    <div class="example-grid">
+      <div class="example-card">
+        <div class="icon">🏛️</div>
+        <h4>외교부</h4>
+        <p>AI 에이전트가 외교 문서 초안 작성 + 다국어 번역 + 정보 분석</p>
+      </div>
+      <div class="example-card">
+        <div class="icon">🧾</div>
+        <h4>국세청</h4>
+        <p>AI 에이전트가 세무 상담 + 서류 자동 검토</p>
+      </div>
+      <div class="example-card">
+        <div class="icon">🏢</div>
+        <h4>구청</h4>
+        <p>AI 챗봇이 시민 민원 접수 + 자동 분류 + 답변 초안</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Section 6: 법률 개정 필요 사항 -->
+<section>
+  <div class="wrap">
+    <span class="section-label label-coral">Section 6</span>
+    <h2>법률 개정 필요 사항</h2>
+    <p class="section-desc">IT 인프라 전환을 위해 개정이 필요한 6개 법률 및 규정</p>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>법률</th>
+            <th>현재</th>
+            <th>개정 방향</th>
+            <th>담당</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>전자금융거래법</strong></td>
+            <td>특정 기술(프로그램) 지정</td>
+            <td>목표 기반 규제</td>
+            <td>금융위</td>
+          </tr>
+          <tr>
+            <td><strong>전자서명법</strong></td>
+            <td>폐지됐지만 관행 잔존</td>
+            <td>다양한 인증 수단 허용 명시</td>
+            <td>과기부</td>
+          </tr>
+          <tr>
+            <td><strong>국가정보화기본법</strong></td>
+            <td>망분리 근거</td>
+            <td>제로트러스트 허용 명시</td>
+            <td>행안부</td>
+          </tr>
+          <tr>
+            <td><strong>행정업무운영규정</strong></td>
+            <td>HWP 사실상 강제</td>
+            <td>개방형 포맷 의무</td>
+            <td>행안부</td>
+          </tr>
+          <tr>
+            <td><strong>전자금융감독규정</strong></td>
+            <td>보안프로그램 설치 의무</td>
+            <td>서버 보안 기준으로 전환</td>
+            <td>금감원</td>
+          </tr>
+          <tr>
+            <td><strong>개인정보보호법</strong></td>
+            <td>클라이언트 수집 허용</td>
+            <td>최소 수집 원칙 강화</td>
+            <td>개인정보위</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- Section 7: 해외 사례 상세 -->
+<section>
+  <div class="wrap">
+    <span class="section-label label-mint">Section 7</span>
+    <h2>해외 사례 상세</h2>
+    <p class="section-desc">미국, 영국, EU의 정부 IT 보안 정책과 한국과의 비교</p>
+
+    <div class="country-grid">
+      <div class="country-card">
+        <div class="country-flag">🇺🇸</div>
+        <h4>미국</h4>
+        <ul>
+          <li>2021 바이든 행정명령 EO 14028: 연방정부 제로트러스트 전환 의무화</li>
+          <li>NIST SP 800-207: 제로트러스트 아키텍처 표준</li>
+          <li>2016년부터 SMS 인증 비권장 (NIST)</li>
+        </ul>
+      </div>
+
+      <div class="country-card">
+        <div class="country-flag">🇬🇧</div>
+        <h4>영국</h4>
+        <ul>
+          <li>Government Digital Service(GDS): 공무원 Google Workspace 사용</li>
+          <li>GOV.UK: 모든 정부 서비스 웹 브라우저로 접근, 프로그램 설치 없음</li>
+          <li>NCSC: 북한 MagicLine4NX 공동 경보 (2023)</li>
+        </ul>
+      </div>
+
+      <div class="country-card">
+        <div class="country-flag">🇪🇺</div>
+        <h4>EU</h4>
+        <ul>
+          <li>PSD2: 금융 사고 시 금융기관 책임 원칙</li>
+          <li>eIDAS: 전자 신원확인 표준</li>
+          <li>GDPR: 최소 데이터 수집 원칙</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Section 8: 출처 및 참고문헌 -->
+<section>
+  <div class="wrap">
+    <span class="section-label label-lavender">Section 8</span>
+    <h2>출처 및 참고문헌</h2>
+
+    <ul class="ref-list">
+      <li>금융보안원, "전자금융과 금융보안" 정기보고서 <a href="https://www.fsec.or.kr" target="_blank" rel="noopener">fsec.or.kr</a></li>
+      <li>금융위원회, 전자금융거래법 개정안 (2023~2025) <a href="https://www.fsc.go.kr" target="_blank" rel="noopener">fsc.go.kr</a></li>
+      <li>국가정보원, N2SF (National Network Security Framework) 가이드라인 (2024) <a href="https://www.nis.go.kr" target="_blank" rel="noopener">nis.go.kr</a></li>
+      <li>NIST SP 800-207, "Zero Trust Architecture" (2020) <a href="https://csrc.nist.gov/publications/detail/sp/800-207/final" target="_blank" rel="noopener">csrc.nist.gov</a></li>
+      <li>Executive Order 14028, "Improving the Nation's Cybersecurity" (2021) <a href="https://www.whitehouse.gov/briefing-room/presidential-actions/2021/05/12/executive-order-on-improving-the-nations-cybersecurity/" target="_blank" rel="noopener">whitehouse.gov</a></li>
+      <li>EU PSD2 (Payment Services Directive 2) <a href="https://ec.europa.eu/info/law/payment-services-psd-2-directive-eu-2015-2366_en" target="_blank" rel="noopener">ec.europa.eu</a></li>
+      <li>UK NCSC / Korea NIS / US NSA Joint Advisory on MagicLine4NX (2023) <a href="https://www.ncsc.gov.uk" target="_blank" rel="noopener">ncsc.gov.uk</a></li>
+      <li>UK Government Digital Service (GDS) <a href="https://www.gov.uk/government/organisations/government-digital-service" target="_blank" rel="noopener">gov.uk</a></li>
+      <li>FIDO Alliance, "FIDO2: Web Authentication" <a href="https://fidoalliance.org/fido2/" target="_blank" rel="noopener">fidoalliance.org</a></li>
+      <li>행정안전부, 행정업무운영규정 <a href="https://www.mois.go.kr" target="_blank" rel="noopener">mois.go.kr</a></li>
+      <li>PCI Security Standards Council <a href="https://www.pcisecuritystandards.org" target="_blank" rel="noopener">pcisecuritystandards.org</a></li>
+      <li>외교부 AI 활용 2단계 추진계획 (2024~2025) <a href="https://www.mofa.go.kr" target="_blank" rel="noopener">mofa.go.kr</a></li>
+    </ul>
+  </div>
+</section>
+
+<!-- Section 9: 자료 다운로드 -->
+<section>
+  <div class="wrap">
+    <span class="section-label label-peach">Section 9</span>
+    <h2>자료 다운로드</h2>
+    <p class="section-desc">보고서 원본 파일을 다운로드할 수 있습니다.</p>
+
+    <div class="download-grid">
+      <a href="index.html" class="dl-card">
+        <div class="icon">📊</div>
+        <p>종합 보고서</p>
+        <span>index.html</span>
+      </a>
+      <a href="level1.html" class="dl-card">
+        <div class="icon">👤</div>
+        <p>시민 편</p>
+        <span>level1.html</span>
+      </a>
+      <a href="level2.html" class="dl-card">
+        <div class="icon">⚡</div>
+        <p>행동가 편</p>
+        <span>level2.html</span>
+      </a>
+      <a href="level3.html" class="dl-card">
+        <div class="icon">🏛️</div>
+        <p>정책 입안자 편</p>
+        <span>level3.html</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer>
+  <p>2026년 3월 | 자유롭게 공유 가능</p>
+</footer>
+
+</body>
+</html>

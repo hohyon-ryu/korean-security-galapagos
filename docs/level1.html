@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>시민 편 — 은행 홈페이지 들어갔더니 프로그램 5개 깔라고?</title>
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --cream: #FFFBF5;
+  --peach: #FFF3EB;
+  --coral: #E8706A;
+  --mint: #2DAA78;
+  --text: #1a1a1a;
+  --text-light: #555;
+  --radius: 16px;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo",
+    "Noto Sans KR", "Malgun Gothic", sans-serif;
+  background: var(--cream);
+  color: var(--text);
+  line-height: 1.75;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── Nav ── */
+nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: #fff;
+  border-bottom: 1px solid #eee;
+  padding: 0 16px;
+}
+
+.nav-inner {
+  max-width: 900px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 0;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.nav-inner::-webkit-scrollbar { display: none; }
+
+.nav-link {
+  display: block;
+  padding: 14px 16px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-light);
+  text-decoration: none;
+  white-space: nowrap;
+  border-bottom: 3px solid transparent;
+  transition: color .2s, border-color .2s;
+}
+
+.nav-link:hover { color: var(--coral); }
+.nav-link.active {
+  color: var(--coral);
+  border-bottom-color: var(--coral);
+}
+
+.nav-home {
+  font-weight: 500;
+  color: var(--mint);
+  margin-right: auto;
+}
+.nav-home:hover { color: var(--coral); }
+
+/* ── Layout ── */
+.wrap { max-width: 800px; margin: 0 auto; padding: 0 20px; }
+
+section { padding: 64px 0; }
+
+.section-label {
+  display: inline-block;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: .04em;
+  color: var(--coral);
+  background: var(--peach);
+  padding: 4px 12px;
+  border-radius: 20px;
+  margin-bottom: 16px;
+}
+
+h2 {
+  font-size: clamp(24px, 5vw, 32px);
+  font-weight: 800;
+  line-height: 1.35;
+  margin-bottom: 24px;
+}
+
+/* ── Hero ── */
+.hero {
+  padding: 80px 0 64px;
+  text-align: center;
+}
+
+.hero h1 {
+  font-size: clamp(28px, 6vw, 44px);
+  font-weight: 900;
+  line-height: 1.3;
+  margin-bottom: 20px;
+  word-break: keep-all;
+}
+
+.hero h1 em {
+  font-style: normal;
+  color: var(--coral);
+}
+
+.hero-sub {
+  font-size: clamp(16px, 3.5vw, 20px);
+  color: var(--text-light);
+  max-width: 520px;
+  margin: 0 auto;
+  word-break: keep-all;
+}
+
+/* ── Cards ── */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 20px;
+}
+
+.card {
+  background: #fff;
+  border-radius: var(--radius);
+  padding: 28px 24px;
+  box-shadow: 0 2px 12px rgba(0,0,0,.06);
+  transition: transform .2s;
+}
+.card:hover { transform: translateY(-3px); }
+
+.card-icon {
+  font-size: 32px;
+  margin-bottom: 12px;
+}
+
+.card h3 {
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.card p {
+  font-size: 15px;
+  color: var(--text-light);
+  word-break: keep-all;
+}
+
+/* ── Emotional Section ── */
+.emo-block {
+  background: var(--peach);
+  border-radius: var(--radius);
+  padding: 32px 28px;
+  margin-bottom: 20px;
+}
+
+.emo-block p {
+  font-size: 17px;
+  word-break: keep-all;
+  line-height: 1.8;
+}
+
+.emo-block strong { color: var(--coral); }
+
+/* ── Comparison ── */
+.compare-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+@media (max-width: 600px) {
+  .compare-row { grid-template-columns: 1fr; }
+}
+
+.compare-card {
+  border-radius: var(--radius);
+  padding: 24px;
+}
+
+.compare-card.good {
+  background: #e8f7f0;
+  border: 2px solid var(--mint);
+}
+.compare-card.bad {
+  background: #fde8e7;
+  border: 2px solid var(--coral);
+}
+
+.compare-card .tag {
+  display: inline-block;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 2px 10px;
+  border-radius: 12px;
+  margin-bottom: 10px;
+}
+
+.good .tag { background: var(--mint); color: #fff; }
+.bad .tag { background: var(--coral); color: #fff; }
+
+.compare-card h3 {
+  font-size: 16px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.compare-card p {
+  font-size: 15px;
+  color: var(--text-light);
+  word-break: keep-all;
+}
+
+/* ── AI Section ── */
+.ai-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.ai-item {
+  background: #fff;
+  border-left: 4px solid var(--coral);
+  border-radius: 0 var(--radius) var(--radius) 0;
+  padding: 20px 24px;
+  font-size: 16px;
+  word-break: keep-all;
+  box-shadow: 0 2px 8px rgba(0,0,0,.04);
+}
+
+/* ── Steps ── */
+.step-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin: 24px 0;
+}
+
+.step {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  background: #fff;
+  border-radius: var(--radius);
+  padding: 20px 24px;
+  box-shadow: 0 2px 8px rgba(0,0,0,.04);
+}
+
+.step-num {
+  flex-shrink: 0;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--mint);
+  color: #fff;
+  font-weight: 800;
+  font-size: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.step p {
+  font-size: 16px;
+  word-break: keep-all;
+}
+
+.step strong { color: var(--mint); }
+
+.conclusion-box {
+  background: var(--mint);
+  color: #fff;
+  border-radius: var(--radius);
+  padding: 28px;
+  font-size: 18px;
+  font-weight: 700;
+  text-align: center;
+  margin-top: 24px;
+  word-break: keep-all;
+  line-height: 1.6;
+}
+
+/* ── CTA ── */
+.cta-section {
+  text-align: center;
+  padding: 48px 0 64px;
+}
+
+.cta-btn {
+  display: inline-block;
+  background: var(--coral);
+  color: #fff;
+  font-size: 17px;
+  font-weight: 700;
+  padding: 16px 40px;
+  border-radius: 50px;
+  text-decoration: none;
+  transition: transform .2s, box-shadow .2s;
+}
+.cta-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(232,112,106,.35);
+}
+
+.cta-share {
+  margin-top: 16px;
+  font-size: 15px;
+  color: var(--text-light);
+}
+
+/* ── Footer ── */
+footer {
+  border-top: 1px solid #e8e0d8;
+  text-align: center;
+  padding: 32px 20px;
+  font-size: 13px;
+  color: #999;
+}
+
+footer a { color: var(--mint); text-decoration: none; }
+footer a:hover { text-decoration: underline; }
+</style>
+</head>
+<body>
+
+<!-- ── Nav ── -->
+<nav>
+  <div class="nav-inner">
+    <a href="index.html" class="nav-link nav-home">종합 보고서</a>
+    <a href="level1.html" class="nav-link active">시민 편</a>
+    <a href="level2.html" class="nav-link">행동가 편 &rarr;</a>
+    <a href="level3.html" class="nav-link">정책 입안자 편 &rarr;</a>
+  </div>
+</nav>
+
+<!-- ── Hero ── -->
+<header class="hero wrap">
+  <h1>은행 홈페이지 들어갔더니<br><em>프로그램 5개</em> 깔라고?</h1>
+  <p class="hero-sub">외국에선 지문 찍으면 끝인데.<br>한국만 25년째 이러고 있다.</p>
+</header>
+
+<!-- ── Section 1 ── -->
+<section class="wrap">
+  <span class="section-label">Section 1</span>
+  <h2>뭐가 문제야?</h2>
+  <div class="card-grid">
+    <div class="card">
+      <div class="card-icon">🏦</div>
+      <h3>은행</h3>
+      <p>프로그램 5개 깔아야 은행 쓸 수 있다. 외국? 지문 찍기. 끝.</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">🏛️</div>
+      <h3>공무원</h3>
+      <p>공무원은 업무 PC에서 구글 검색도 못 한다. 인터넷 선이 끊겨 있다.</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">📄</div>
+      <h3>서류</h3>
+      <p>구청에서 서류 받으면 .hwp 파일. 열려면 6만 원짜리 프로그램 사야 한다. 맥북? 안 열림.</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">🔓</div>
+      <h3>보안</h3>
+      <p>보안 프로그램 10개 깔아놨는데 3년간 해킹당한 줄도 몰랐다.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ── Section 2 ── -->
+<section class="wrap" style="padding-top:0;">
+  <span class="section-label">Section 2</span>
+  <h2>이게 왜 문제야?</h2>
+
+  <div class="emo-block">
+    <p>보안 프로그램 5개 깔아도 <strong>보이스피싱 못 막는다.</strong> 사기범이 전화해서 속이면 피해자가 직접 돈을 보낸다. 프로그램이 뭘 어떻게 막나.</p>
+  </div>
+
+  <div class="emo-block">
+    <p>이 프로그램들로 <strong>북한이 해킹했다.</strong> 보안 깔라고 해서 깔았더니 그게 해킹 통로였다.</p>
+  </div>
+
+  <div class="emo-block">
+    <p>은행이 이걸 깔라고 하는 <strong>진짜 이유:</strong> 해킹당해도 "프로그램 깔라고 했잖아" &rarr; 은행은 면책. 외국은? 해킹당하면 <strong>은행이 책임진다.</strong></p>
+  </div>
+</section>
+
+<!-- ── Section 3 ── -->
+<section class="wrap" style="padding-top:0;">
+  <span class="section-label">Section 3</span>
+  <h2>외국은 어떤데?</h2>
+
+  <div class="compare-row">
+    <div class="compare-card good">
+      <span class="tag">미국에서 은행 이체</span>
+      <h3>앱 열기 &rarr; 지문 &rarr; 끝</h3>
+      <p>설치할 것: 없음</p>
+    </div>
+    <div class="compare-card bad">
+      <span class="tag">한국에서 은행 이체</span>
+      <h3>프로그램 5개 설치 &rarr; 공동인증서 &rarr; 보안카드 &rarr; OTP &rarr; SMS 인증</h3>
+      <p>설치할 것: 5개 이상</p>
+    </div>
+  </div>
+
+  <div class="compare-row">
+    <div class="compare-card good">
+      <span class="tag">미국 공무원</span>
+      <h3>업무 PC에서 AI 사용</h3>
+      <p>업무 시간 30~50% 절감</p>
+    </div>
+    <div class="compare-card bad">
+      <span class="tag">한국 공무원</span>
+      <h3>업무 PC에서 네이버 검색도 안 됨</h3>
+      <p>인터넷 자체가 차단돼 있다</p>
+    </div>
+  </div>
+</section>
+
+<!-- ── Section 4 ── -->
+<section class="wrap" style="padding-top:0;">
+  <span class="section-label">Section 4</span>
+  <h2>AI 시대에 왜 더 큰 문제야?</h2>
+
+  <div class="ai-list">
+    <div class="ai-item">AI가 은행 업무 대신해주는 시대인데 "프로그램 5개 설치하세요"를 AI가 어떻게 해?</div>
+    <div class="ai-item">AI 보이스피싱은 목소리까지 복제하는데 키보드 보안으로 막겠다고?</div>
+    <div class="ai-item">외교부가 AI 사업을 추진 중인데, 공무원 PC에서 인터넷이 안 되는데 AI를 어떻게 쓰나?</div>
+    <div class="ai-item">윈도우 아니면 은행 업무가 힘들고 맥이나 리눅스는 사람 취급도 안 해줌</div>
+  </div>
+</section>
+
+<!-- ── Section 5 ── -->
+<section class="wrap" style="padding-top:0;">
+  <span class="section-label">Section 5</span>
+  <h2>바꿀 수 있어?</h2>
+  <p style="font-size:18px;font-weight:700;color:var(--mint);margin-bottom:8px;">바꿀 조건은 이미 갖춰졌다</p>
+
+  <div class="step-list">
+    <div class="step">
+      <span class="step-num">01</span>
+      <p><strong>공인인증서는 이미 폐지됐다</strong> (2020년)</p>
+    </div>
+    <div class="step">
+      <span class="step-num">02</span>
+      <p><strong>지문 인식은 이미 내 폰에 있다</strong></p>
+    </div>
+    <div class="step">
+      <span class="step-num">03</span>
+      <p><strong>외국은 이미 다 바꿨다</strong></p>
+    </div>
+  </div>
+
+  <div class="conclusion-box">
+    해킹당하면 은행이 책임지게 하면,<br>프로그램 5개는 내일이라도 사라진다.
+  </div>
+</section>
+
+<!-- ── CTA ── -->
+<div class="cta-section wrap">
+  <a href="level2.html" class="cta-btn">더 자세히 알고 싶다면 &rarr; 행동가 편 보기</a>
+  <p class="cta-share">공감하면 저장하고 공유해주세요</p>
+</div>
+
+<!-- ── Footer ── -->
+<footer>
+  <p>2026년 3월 | 자유롭게 공유 가능 | <a href="https://github.com" target="_blank" rel="noopener">GitHub</a></p>
+</footer>
+
+</body>
+</html>

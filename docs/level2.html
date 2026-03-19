@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>행동가 편 — 어떻게 이렇게 됐고, 뭘 바꿔야 하나</title>
+<meta name="description" content="대한민국 IT 인프라 4대 구조적 문제의 원인, 해외 사례 비교, 에이전트 시대 보안 구조, 그리고 요구해야 할 것들">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --cream: #FFFBF5;
+  --lavender-bg: #F2EEFC;
+  --mint-bg: #EBFAF5;
+  --peach-bg: #FFF3EB;
+  --coral: #E8706A;
+  --mint: #2DAA78;
+  --lavender: #7B68B8;
+  --peach: #D88050;
+  --text: #1a1a1a;
+  --text-light: #555;
+  --text-muted: #888;
+  --border: #E8E4E0;
+  --white: #fff;
+  --radius: 16px;
+  --shadow: 0 2px 12px rgba(0,0,0,.06);
+  --shadow-hover: 0 8px 28px rgba(0,0,0,.1);
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo",
+    "Noto Sans KR", "Malgun Gothic", sans-serif;
+  background: var(--cream);
+  color: var(--text);
+  line-height: 1.75;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── Nav ── */
+nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(255,255,255,.95);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid #eee;
+  padding: 0 16px;
+}
+
+.nav-inner {
+  max-width: 960px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 0;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.nav-inner::-webkit-scrollbar { display: none; }
+
+.nav-link {
+  display: block;
+  padding: 14px 16px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-light);
+  text-decoration: none;
+  white-space: nowrap;
+  border-bottom: 3px solid transparent;
+  transition: color .2s, border-color .2s;
+}
+
+.nav-link:hover { color: var(--coral); }
+.nav-link.active {
+  color: var(--lavender);
+  border-bottom-color: var(--lavender);
+}
+
+.nav-home {
+  font-weight: 500;
+  color: var(--mint);
+  margin-right: auto;
+}
+.nav-home:hover { color: var(--coral); }
+
+/* ── Layout ── */
+.wrap { max-width: 960px; margin: 0 auto; padding: 0 20px; }
+section { padding: 64px 0; }
+
+.section-label {
+  display: inline-block;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: .04em;
+  padding: 4px 12px;
+  border-radius: 20px;
+  margin-bottom: 16px;
+}
+.label-coral { background: rgba(232,112,106,.12); color: var(--coral); }
+.label-lavender { background: rgba(123,104,184,.12); color: var(--lavender); }
+.label-mint { background: rgba(45,170,120,.12); color: var(--mint); }
+.label-peach { background: var(--peach-bg); color: var(--peach); }
+
+h2 {
+  font-size: clamp(24px, 5vw, 32px);
+  font-weight: 800;
+  line-height: 1.35;
+  margin-bottom: 12px;
+}
+
+.section-desc {
+  color: var(--text-light);
+  font-size: 16px;
+  margin-bottom: 40px;
+  max-width: 680px;
+  line-height: 1.8;
+  word-break: keep-all;
+}
+
+/* ── Hero ── */
+.hero {
+  padding: 80px 0 64px;
+  text-align: center;
+  background: linear-gradient(160deg, var(--cream) 0%, var(--lavender-bg) 50%, var(--cream) 100%);
+}
+
+.hero h1 {
+  font-size: clamp(26px, 5.5vw, 42px);
+  font-weight: 900;
+  line-height: 1.3;
+  margin-bottom: 20px;
+  word-break: keep-all;
+}
+
+.hero h1 em {
+  font-style: normal;
+  color: var(--lavender);
+}
+
+.hero-sub {
+  font-size: clamp(16px, 3.5vw, 20px);
+  color: var(--text-light);
+  max-width: 540px;
+  margin: 0 auto;
+  word-break: keep-all;
+}
+
+/* ── Detail Cards ── */
+.detail-card {
+  background: var(--white);
+  border-radius: var(--radius);
+  padding: 32px 28px;
+  margin-bottom: 24px;
+  box-shadow: var(--shadow);
+  border-left: 5px solid var(--coral);
+  transition: transform .2s, box-shadow .2s;
+}
+.detail-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-hover); }
+.detail-card.c-coral { border-left-color: var(--coral); }
+.detail-card.c-lavender { border-left-color: var(--lavender); }
+.detail-card.c-peach { border-left-color: var(--peach); }
+.detail-card.c-mint { border-left-color: var(--mint); }
+
+.detail-card h3 {
+  font-size: 20px;
+  font-weight: 800;
+  margin-bottom: 16px;
+}
+.detail-card.c-coral h3 { color: var(--coral); }
+.detail-card.c-lavender h3 { color: var(--lavender); }
+.detail-card.c-peach h3 { color: var(--peach); }
+.detail-card.c-mint h3 { color: var(--mint); }
+
+.detail-card ul {
+  list-style: none;
+  padding: 0;
+}
+
+.detail-card li {
+  padding: 6px 0;
+  font-size: 15px;
+  color: var(--text-light);
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  line-height: 1.7;
+  word-break: keep-all;
+}
+
+.detail-card li::before {
+  content: '';
+  flex-shrink: 0;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  margin-top: 10px;
+}
+.c-coral li::before { background: var(--coral); }
+.c-lavender li::before { background: var(--lavender); }
+.c-peach li::before { background: var(--peach); }
+.c-mint li::before { background: var(--mint); }
+
+.detail-card .highlight {
+  display: inline-block;
+  background: rgba(232,112,106,.08);
+  border-radius: 6px;
+  padding: 2px 8px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+/* ── Timeline ── */
+.timeline {
+  position: relative;
+  padding-left: 40px;
+  max-width: 800px;
+}
+
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 14px;
+  top: 8px;
+  bottom: 8px;
+  width: 3px;
+  background: linear-gradient(to bottom, var(--lavender), var(--coral));
+  border-radius: 2px;
+}
+
+.tl-item {
+  position: relative;
+  padding: 16px 0 16px 24px;
+}
+
+.tl-item::before {
+  content: '';
+  position: absolute;
+  left: -33px;
+  top: 22px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--lavender);
+  border: 3px solid var(--cream);
+  box-shadow: 0 0 0 2px var(--lavender);
+}
+
+.tl-item.danger::before {
+  background: var(--coral);
+  box-shadow: 0 0 0 2px var(--coral);
+}
+
+.tl-item.turn::before {
+  background: var(--mint);
+  box-shadow: 0 0 0 2px var(--mint);
+}
+
+.tl-year {
+  font-weight: 800;
+  font-size: 16px;
+  color: var(--lavender);
+  margin-bottom: 4px;
+}
+
+.tl-item.danger .tl-year { color: var(--coral); }
+.tl-item.turn .tl-year { color: var(--mint); }
+
+.tl-desc {
+  color: var(--text-light);
+  font-size: 14px;
+  line-height: 1.7;
+  word-break: keep-all;
+}
+
+/* ── Comparison Tables ── */
+.compare-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  margin-bottom: 32px;
+  font-size: 14px;
+}
+
+.compare-table thead th {
+  padding: 14px 16px;
+  text-align: left;
+  font-weight: 700;
+  color: var(--white);
+}
+.compare-table.t-coral thead th { background: var(--coral); }
+.compare-table.t-mint thead th { background: var(--mint); }
+.compare-table thead th:first-child { background: #555; }
+
+.compare-table tbody td {
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border);
+  background: var(--white);
+  word-break: keep-all;
+}
+.compare-table tbody tr:last-child td { border-bottom: none; }
+.compare-table tbody td:first-child {
+  font-weight: 600;
+  color: var(--text);
+  background: #FAFAFA;
+}
+
+/* ── Agent Section ── */
+.agent-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.agent-card {
+  background: var(--white);
+  border-radius: var(--radius);
+  padding: 24px;
+  box-shadow: var(--shadow);
+  transition: transform .2s;
+}
+.agent-card:hover { transform: translateY(-2px); }
+
+.agent-card .num {
+  display: inline-block;
+  width: 28px;
+  height: 28px;
+  line-height: 28px;
+  text-align: center;
+  border-radius: 50%;
+  background: var(--lavender-bg);
+  color: var(--lavender);
+  font-weight: 800;
+  font-size: 13px;
+  margin-bottom: 12px;
+}
+
+.agent-card h3 {
+  font-size: 16px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.agent-card p {
+  font-size: 14px;
+  color: var(--text-light);
+  line-height: 1.7;
+  word-break: keep-all;
+}
+
+.agent-card.wide {
+  grid-column: 1 / -1;
+  background: var(--lavender-bg);
+  border: 2px solid var(--lavender);
+}
+
+/* ── Action Items ── */
+.action-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+.action-card {
+  background: var(--white);
+  border-radius: var(--radius);
+  padding: 24px;
+  box-shadow: var(--shadow);
+  border-top: 4px solid var(--coral);
+  transition: transform .2s;
+}
+.action-card:hover { transform: translateY(-2px); }
+.action-card.a-coral { border-top-color: var(--coral); }
+.action-card.a-mint { border-top-color: var(--mint); }
+.action-card.a-lavender { border-top-color: var(--lavender); }
+.action-card.a-peach { border-top-color: var(--peach); }
+.action-card.a-sky { border-top-color: #4A9BD9; }
+
+.action-card h3 {
+  font-size: 17px;
+  font-weight: 700;
+  margin-bottom: 14px;
+}
+
+.action-card ul { list-style: none; padding: 0; }
+.action-card li {
+  padding: 5px 0;
+  font-size: 14px;
+  color: var(--text-light);
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  line-height: 1.6;
+  word-break: keep-all;
+}
+.arrow { flex-shrink: 0; font-weight: 700; color: var(--text-muted); }
+
+/* ── Downloads ── */
+.dl-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 16px;
+}
+
+.dl-card {
+  background: var(--white);
+  border-radius: var(--radius);
+  padding: 24px 20px;
+  text-decoration: none;
+  color: var(--text);
+  box-shadow: var(--shadow);
+  transition: transform .2s, box-shadow .2s;
+  display: block;
+}
+.dl-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-hover); }
+.dl-card .dl-icon { font-size: 24px; margin-bottom: 10px; display: block; }
+.dl-card .dl-title { font-weight: 700; font-size: 15px; margin-bottom: 4px; }
+.dl-card .dl-desc { font-size: 13px; color: var(--text-muted); }
+
+/* ── CTA ── */
+.cta-section {
+  text-align: center;
+  padding: 48px 0 64px;
+}
+
+.cta-btn {
+  display: inline-block;
+  background: var(--lavender);
+  color: var(--white);
+  font-size: 17px;
+  font-weight: 700;
+  padding: 16px 40px;
+  border-radius: 50px;
+  text-decoration: none;
+  transition: transform .2s, box-shadow .2s;
+}
+.cta-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(123,104,184,.35);
+}
+
+/* ── Footer ── */
+footer {
+  border-top: 1px solid #e8e0d8;
+  text-align: center;
+  padding: 32px 20px;
+  font-size: 13px;
+  color: #999;
+}
+footer a { color: var(--mint); text-decoration: none; }
+footer a:hover { text-decoration: underline; }
+
+/* ── Mobile ── */
+@media (max-width: 768px) {
+  .hero { padding: 64px 0 48px; }
+  section { padding: 48px 0; }
+  .agent-grid { grid-template-columns: 1fr; }
+  .agent-card.wide { grid-column: auto; }
+  .action-grid { grid-template-columns: 1fr; }
+  .compare-table { font-size: 12px; }
+  .compare-table thead th,
+  .compare-table tbody td { padding: 10px 10px; }
+  .detail-card { padding: 24px 20px; }
+  nav .nav-link { padding: 12px 10px; font-size: 13px; }
+}
+
+@media (max-width: 480px) {
+  .wrap { padding: 0 16px; }
+  .detail-card { padding: 20px 16px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ── Nav ── -->
+<nav>
+  <div class="nav-inner">
+    <a href="index.html" class="nav-link nav-home">종합 보고서</a>
+    <a href="level1.html" class="nav-link">&larr; 시민 편</a>
+    <a href="level2.html" class="nav-link active">행동가 편</a>
+    <a href="level3.html" class="nav-link">정책 입안자 편 &rarr;</a>
+  </div>
+</nav>
+
+<!-- ── Hero ── -->
+<header class="hero">
+  <div class="wrap">
+    <h1>어떻게 이렇게 됐고,<br><em>뭘 바꿔야 하나</em></h1>
+    <p class="hero-sub">4가지 구조적 문제와 해결의 실마리</p>
+  </div>
+</header>
+
+<!-- ══════════════════════════════════════════
+     Section 1: 4대 구조적 문제
+     ══════════════════════════════════════════ -->
+<section class="wrap">
+  <span class="section-label label-coral">Section 1</span>
+  <h2>4대 구조적 문제</h2>
+  <p class="section-desc">각각의 문제가 왜 생겼고, 왜 25년간 고착됐는지 추적한다.</p>
+
+  <!-- Card 1: 결제 보안의 갈라파고스 -->
+  <div class="detail-card c-coral">
+    <h3>결제 보안의 갈라파고스</h3>
+    <ul>
+      <li>1999년 미국 암호화 수출 금지 &rarr; 한국이 독자 암호화(SEED) + ActiveX로 해결 &rarr; 1년 뒤 미국이 수출 제한을 풀었지만, 한국은 이미 ActiveX 위에 인프라를 올려놓은 뒤였다</li>
+      <li>전자서명법이 공인인증서만 법적 효력으로 인정 &rarr; 21년간 Internet Explorer 종속</li>
+      <li>2005년 인터넷뱅킹 해킹 이후 보이스피싱 대응 명목으로 PC 보안프로그램 의무화 &rarr; 실제 보이스피싱(전화 사기)에는 무력</li>
+      <li>보안프로그램의 실제 기능: 은행의 <span class="highlight">면책 도구</span>. "설치하라고 했잖아" &rarr; 사고 책임이 사용자에게 전가</li>
+      <li>규제가 만든 이권 구조: 보안업체 매출을 규제가 보장. 업체는 규제 유지 로비, 퇴직 공무원은 보안업체 취업(회전문 인사)</li>
+    </ul>
+  </div>
+
+  <!-- Card 2: 망분리의 덫 -->
+  <div class="detail-card c-lavender">
+    <h3>망분리의 덫</h3>
+    <ul>
+      <li>2006년부터 공무원 업무 PC에서 인터넷 완전 차단 &mdash; 해킹 방지가 목적</li>
+      <li>결과: 온나라시스템(정부 행정 시스템)이 2022년부터 3년간 해킹당했지만 발견하지 못함. 망분리는 침입 탐지 능력을 제거한다</li>
+      <li>미국은 2022년 바이든 행정명령(EO 14028)으로 연방정부 제로트러스트 전환 시작</li>
+      <li>영국 공무원은 Google Workspace를 업무용으로 사용. 클라우드 기반, AI 도구 활용 가능</li>
+      <li>외교부가 "에이전틱 AI" 사업을 추진 중이지만, 망분리 환경에서 AI 에이전트는 외부 정보에 접근할 수 없다 &mdash; 구조적 모순</li>
+    </ul>
+  </div>
+
+  <!-- Card 3: HWP 문서 독점 -->
+  <div class="detail-card c-peach">
+    <h3>HWP 문서 독점</h3>
+    <ul>
+      <li>대한민국 공문서가 한컴오피스 독점 포맷(.hwp/.hwpx)에 갇혀 있음</li>
+      <li>AI가 HWP를 제대로 읽을 수 없어 행정 문서 자동화, AI 분석, 검색 모두 불가</li>
+      <li>연간 수십억 원의 라이선스 비용이 단일 기업에 귀속</li>
+      <li>시민이 공문서를 열려면 6만 원짜리 프로그램을 구매하거나 불완전한 뷰어 사용</li>
+      <li>미국, 영국, EU는 PDF 또는 웹 문서(HTML)를 표준으로 사용 &mdash; 누구나, 어떤 기기에서나 열 수 있음</li>
+    </ul>
+  </div>
+
+  <!-- Card 4: 보안프로그램 과잉 -->
+  <div class="detail-card c-mint">
+    <h3>보안프로그램 과잉</h3>
+    <ul>
+      <li>공무원 PC에 10종 이상의 보안프로그램 설치 의무. 부팅에 수 분, 업무 속도 50% 저하</li>
+      <li>KAIST/USENIX Security 2025 연구: 한국 보안프로그램 7종을 분석해 <span class="highlight">심각한 취약점 19건</span> 발견</li>
+      <li>북한 라자루스 그룹이 Veraport(2020년), MagicLine4NX(2023년)를 해킹 통로로 사용 &mdash; 보안프로그램이 공격 벡터가 된 사례</li>
+      <li>TouchEn nxKey(2023년): 전 국민이 설치한 키보드 보안 프로그램에서 키로거 수준의 취약점 발견 &mdash; 모든 키 입력을 엿볼 수 있는 구조</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+     Section 2: 타임라인
+     ══════════════════════════════════════════ -->
+<section class="wrap" style="padding-top:0;">
+  <span class="section-label label-lavender">Section 2</span>
+  <h2>25년간의 타임라인</h2>
+  <p class="section-desc">시작은 합리적 이유였다. 문제는 세계가 전환할 때 한국만 남았다는 것이다.</p>
+
+  <div class="timeline">
+    <div class="tl-item">
+      <div class="tl-year">1999</div>
+      <div class="tl-desc">미국 암호화 수출 금지 &rarr; 한국 독자 암호화(SEED) + ActiveX 채택. 전자서명법 제정 &rarr; 공인인증서만 법적 효력.</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-year">2000</div>
+      <div class="tl-desc">미국 수출 제한 해제. 한국은 이미 ActiveX 위에 전체 금융 인프라를 구축한 뒤. 되돌리기엔 늦었다.</div>
+    </div>
+    <div class="tl-item danger">
+      <div class="tl-year">2005</div>
+      <div class="tl-desc">한국 최초 인터넷뱅킹 해킹 사고 &rarr; 보안프로그램 설치 의무화 시작. 이후 20년간 고착.</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-year">2006</div>
+      <div class="tl-desc">망분리 정책 도입. 공무원 업무 PC에서 인터넷 완전 차단.</div>
+    </div>
+    <div class="tl-item turn">
+      <div class="tl-year">2008</div>
+      <div class="tl-desc">Google Chrome 출시 (샌드박스 보안). 세계는 브라우저 격리 기술로 전환. 한국은 반대 방향으로 달렸다.</div>
+    </div>
+    <div class="tl-item danger">
+      <div class="tl-year">2020</div>
+      <div class="tl-desc">북한 라자루스, Veraport 공급망 공격으로 악성코드 배포. 같은 해 공인인증서 21년 만에 폐지.</div>
+    </div>
+    <div class="tl-item danger">
+      <div class="tl-year">2022</div>
+      <div class="tl-desc">미국 바이든 행정명령(EO 14028) &mdash; 연방정부 제로트러스트 전환. 같은 시기 온나라시스템 해킹 시작(3년간 미발견).</div>
+    </div>
+    <div class="tl-item danger">
+      <div class="tl-year">2023</div>
+      <div class="tl-desc">TouchEn nxKey 전 국민 키로거 취약점 공개. 북한 MagicLine4NX로 기업 침입. 영국-한국 공동 경보 발령.</div>
+    </div>
+    <div class="tl-item turn">
+      <div class="tl-year">2024</div>
+      <div class="tl-desc">국정원 N2SF(국가망보안체계) 발표 &mdash; 제로트러스트 방향 제시. 실제 전환 속도는 매우 더딤.</div>
+    </div>
+    <div class="tl-item danger">
+      <div class="tl-year">2026</div>
+      <div class="tl-desc">외교부 AI 2단계 사업 착수. 한국 시민은 여전히 프로그램 5개를 깔고 있다.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+     Section 3: 세계는 어떻게 하나
+     ══════════════════════════════════════════ -->
+<section style="background: var(--mint-bg); padding: 64px 0;">
+  <div class="wrap">
+    <span class="section-label label-mint">Section 3</span>
+    <h2>세계는 어떻게 하나</h2>
+    <p class="section-desc">같은 문제를 다른 나라는 이미 해결했다.</p>
+
+    <h3 style="font-size:18px;font-weight:700;margin-bottom:16px;">결제 보안 비교</h3>
+    <table class="compare-table t-coral">
+      <thead>
+        <tr>
+          <th>항목</th>
+          <th>한국</th>
+          <th>미국 / EU</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>프로그램 설치</td>
+          <td>5~9개 필수</td>
+          <td>0개</td>
+        </tr>
+        <tr>
+          <td>인증 방식</td>
+          <td>공동인증서 + OTP + 보안카드</td>
+          <td>지문/얼굴 인식 (FIDO2)</td>
+        </tr>
+        <tr>
+          <td>사고 책임</td>
+          <td>사용자</td>
+          <td>금융기관 (EU PSD2)</td>
+        </tr>
+        <tr>
+          <td>보안 위치</td>
+          <td>사용자 PC</td>
+          <td>서버</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3 style="font-size:18px;font-weight:700;margin-bottom:16px;">공공기관 비교</h3>
+    <table class="compare-table t-mint">
+      <thead>
+        <tr>
+          <th>항목</th>
+          <th>한국</th>
+          <th>미국</th>
+          <th>영국</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>인터넷</td>
+          <td>망분리 (차단)</td>
+          <td>제로트러스트 (허용)</td>
+          <td>클라우드 기반</td>
+        </tr>
+        <tr>
+          <td>AI 활용</td>
+          <td>불가</td>
+          <td>적극 활용</td>
+          <td>Google Workspace</td>
+        </tr>
+        <tr>
+          <td>문서 형식</td>
+          <td>HWP (독점)</td>
+          <td>PDF / 웹 (개방)</td>
+          <td>PDF / 웹 (개방)</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+     Section 4: 에이전트 시대의 보안 구조
+     ══════════════════════════════════════════ -->
+<section class="wrap">
+  <span class="section-label label-lavender">Section 4</span>
+  <h2>에이전트 시대의 보안 구조</h2>
+  <p class="section-desc">AI 에이전트가 사람을 대신해 금융, 행정, 업무를 처리하는 시대. 현재 보안 체계는 이 구조와 호환되지 않는다.</p>
+
+  <div class="agent-grid">
+    <div class="agent-card wide">
+      <span class="num">!</span>
+      <h3>현재 구조의 근본 문제</h3>
+      <p>현재 보안은 "사람이 브라우저에서 직접 조작"하는 것을 전제한다. 프로그램 설치, 키보드 보안, 화면 캡처 방지 &mdash; 전부 사람의 눈과 손을 가정한 설계. AI 에이전트는 브라우저를 쓰지 않고, 키보드를 치지 않으며, 화면을 보지 않는다.</p>
+    </div>
+
+    <div class="agent-card">
+      <span class="num">1</span>
+      <h3>API-first 인증</h3>
+      <p>에이전트는 브라우저가 아니라 API로 통신한다. OAuth 2.0 스코프 기반 권한 위임이 필요하다. "이 에이전트는 잔액 조회만 가능, 이체는 불가" 같은 세분화된 권한 설정.</p>
+    </div>
+
+    <div class="agent-card">
+      <span class="num">2</span>
+      <h3>에이전트 신원 확인</h3>
+      <p>사람이 FIDO2(지문/얼굴)로 인증 &rarr; 에이전트에 시간제한 토큰 발급. 에이전트는 30분간만 특정 작업을 수행할 수 있고, 시간이 지나면 재인증이 필요.</p>
+    </div>
+
+    <div class="agent-card">
+      <span class="num">3</span>
+      <h3>행위 기반 보안</h3>
+      <p>"누구인가"가 아니라 "무엇을 하는가"로 판단. 평소 패턴과 다른 행위(갑자기 대량 이체, 새벽 3시 접속)를 실시간 탐지. 이상 행위 시 즉시 차단.</p>
+    </div>
+
+    <div class="agent-card">
+      <span class="num">4</span>
+      <h3>감사 추적 (Audit Trail)</h3>
+      <p>에이전트의 모든 행위를 서버에서 로깅. 누가, 어떤 에이전트에, 어떤 권한을, 언제 부여했고, 에이전트가 무엇을 했는지 전부 기록. 사후 추적과 책임 소재가 명확해진다.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+     Section 5: 무엇을 요구해야 하나
+     ══════════════════════════════════════════ -->
+<section style="background: var(--lavender-bg); padding: 64px 0;">
+  <div class="wrap">
+    <span class="section-label label-lavender">Section 5</span>
+    <h2>무엇을 요구해야 하나</h2>
+    <p class="section-desc">행동가로서 각 기관에 요구할 구체적 사항.</p>
+
+    <div class="action-grid">
+      <div class="action-card a-coral">
+        <h3>국회</h3>
+        <ul>
+          <li><span class="arrow">&rarr;</span> 전자금융거래법 개정: "뭘 깔아라" &rarr; "뭘 달성해라" (목표 기반 규제 전환)</li>
+          <li><span class="arrow">&rarr;</span> 사고 책임을 금융기관으로 전환 (EU PSD2 모델)</li>
+          <li><span class="arrow">&rarr;</span> 망분리 규정 개정: 제로트러스트 허용 법적 근거 마련</li>
+          <li><span class="arrow">&rarr;</span> 행정업무운영규정 개정: HWP 독점 해소</li>
+        </ul>
+      </div>
+
+      <div class="action-card a-lavender">
+        <h3>금감원</h3>
+        <ul>
+          <li><span class="arrow">&rarr;</span> 보안프로그램 설치 의무 규정 폐지</li>
+          <li><span class="arrow">&rarr;</span> PCI DSS, 3D Secure 등 글로벌 보안 표준 채택</li>
+          <li><span class="arrow">&rarr;</span> 금융기관 서버 보안 투자 의무화</li>
+          <li><span class="arrow">&rarr;</span> 보안프로그램 HTTPS 중간 해독(MITM) 금지</li>
+        </ul>
+      </div>
+
+      <div class="action-card a-mint">
+        <h3>은행</h3>
+        <ul>
+          <li><span class="arrow">&rarr;</span> 서버측 이상거래탐지(FDS) 고도화</li>
+          <li><span class="arrow">&rarr;</span> FIDO2/패스키 도입</li>
+          <li><span class="arrow">&rarr;</span> 클라이언트 프로그램 의존도 단계적 제거</li>
+          <li><span class="arrow">&rarr;</span> 사고 발생 시 기관 책임 원칙 수용</li>
+        </ul>
+      </div>
+
+      <div class="action-card a-peach">
+        <h3>행안부</h3>
+        <ul>
+          <li><span class="arrow">&rarr;</span> 공문서 개방형 포맷(PDF/ODF) 의무화</li>
+          <li><span class="arrow">&rarr;</span> N2SF 제로트러스트 전환 가속화</li>
+          <li><span class="arrow">&rarr;</span> 공무원 AI 활용 가이드라인 수립</li>
+          <li><span class="arrow">&rarr;</span> 보안프로그램 10종 &rarr; 5종 이내 축소</li>
+        </ul>
+      </div>
+
+      <div class="action-card a-sky">
+        <h3>시민</h3>
+        <ul>
+          <li><span class="arrow">&rarr;</span> 국회 청원: 전자금융거래법, 망분리 규정 개정 요구</li>
+          <li><span class="arrow">&rarr;</span> 보안프로그램 강제 설치에 문제 제기</li>
+          <li><span class="arrow">&rarr;</span> 이 보고서와 데이터를 공유, 확산</li>
+          <li><span class="arrow">&rarr;</span> 금융 사고 시 기관 책임 요구</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+     Section 6: 자료 다운로드
+     ══════════════════════════════════════════ -->
+<section class="wrap">
+  <span class="section-label label-mint">Section 6</span>
+  <h2>자료 다운로드</h2>
+  <p class="section-desc">분석 원문, 정책 제언, 발표 자료를 자유롭게 활용할 수 있습니다.</p>
+
+  <div class="dl-grid">
+    <a class="dl-card" href="../한국_결제보안_갈라파고스_분석.md">
+      <span class="dl-icon">&#128196;</span>
+      <div class="dl-title">결제보안 전체 분석</div>
+      <div class="dl-desc">한국_결제보안_갈라파고스_분석.md</div>
+    </a>
+    <a class="dl-card" href="../정책제언_국가AI전략위원회.md">
+      <span class="dl-icon">&#128220;</span>
+      <div class="dl-title">정책 제언</div>
+      <div class="dl-desc">정책제언_국가AI전략위원회.md</div>
+    </a>
+    <a class="dl-card" href="../한국보안_갈라파고스_발표자료_유호현_v2.1.pdf">
+      <span class="dl-icon">&#128218;</span>
+      <div class="dl-title">발표 슬라이드 PDF</div>
+      <div class="dl-desc">한국보안_갈라파고스_발표자료 v2.1</div>
+    </a>
+    <a class="dl-card" href="../../국회청원문.md">
+      <span class="dl-icon">&#128227;</span>
+      <div class="dl-title">국회 청원문</div>
+      <div class="dl-desc">국회청원문.md</div>
+    </a>
+    <a class="dl-card" href="../../AI시대_IT공약_종합보고서.md">
+      <span class="dl-icon">&#128203;</span>
+      <div class="dl-title">AI시대 IT 종합보고서</div>
+      <div class="dl-desc">AI시대_IT공약_종합보고서.md</div>
+    </a>
+  </div>
+</section>
+
+<!-- ── CTA ── -->
+<div class="cta-section wrap">
+  <a href="level3.html" class="cta-btn">실무 정책이 궁금하다면 &rarr; 정책 입안자 편</a>
+</div>
+
+<!-- ── Footer ── -->
+<footer>
+  <p>2026년 3월 | 자유롭게 공유 가능 | <a href="https://github.com" target="_blank" rel="noopener">GitHub</a></p>
+</footer>
+
+</body>
+</html>

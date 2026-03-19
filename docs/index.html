@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI 시대, 대한민국 IT 인프라 종합 보고서</title>
+<meta name="description" content="결제 보안 · 망분리 · 공문서 · 행정 보안 — 문제점, 원인, 해결책을 3단계 깊이로">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:-apple-system,'Apple SD Gothic Neo','Noto Sans KR',sans-serif;color:#1A1A1A;line-height:1.6}
+a{color:inherit;text-decoration:none}
+
+.hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:40px 20px;background:linear-gradient(135deg,#FFFBF5 0%,#FFF3EB 50%,#F2EEFC 100%)}
+.hero h1{font-size:clamp(32px,6vw,56px);font-weight:800;margin-bottom:16px;line-height:1.3}
+.hero .sub{font-size:clamp(16px,3vw,22px);color:#555;margin-bottom:40px;max-width:700px}
+.hero .highlight{color:#E8706A}
+
+.quote{background:#fff;border-left:4px solid #E8706A;padding:24px 30px;border-radius:0 16px 16px 0;max-width:750px;margin:0 auto 50px;font-size:clamp(15px,2.5vw,19px);color:#4A4A4A;line-height:1.7;box-shadow:0 2px 20px rgba(0,0,0,0.06)}
+
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:24px;max-width:1000px;margin:0 auto;padding:0 20px}
+
+.level-card{border-radius:20px;padding:48px 36px;text-align:center;transition:transform .2s,box-shadow .2s;cursor:pointer;display:flex;flex-direction:column;justify-content:space-between;min-height:420px;box-shadow:0 4px 24px rgba(0,0,0,0.08)}
+.level-card:hover{transform:translateY(-6px);box-shadow:0 8px 40px rgba(0,0,0,0.12)}
+
+.level-card .emoji{font-size:48px;margin-bottom:16px}
+.level-card .tier{font-size:14px;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:12px}
+.level-card h2{font-size:28px;margin-bottom:16px;line-height:1.3}
+.level-card p{font-size:16px;color:#555;line-height:1.7;margin-bottom:24px;flex-grow:1}
+.level-card .btn{display:inline-block;padding:14px 32px;border-radius:50px;font-size:16px;font-weight:700;transition:background .2s}
+
+.c1{background:linear-gradient(135deg,#FFF3EB,#FFE8E0)}
+.c1 .tier{color:#E8706A}
+.c1 .btn{background:#E8706A;color:#fff}
+.c1 .btn:hover{background:#d45a54}
+
+.c2{background:linear-gradient(135deg,#F2EEFC,#EAE4FA)}
+.c2 .tier{color:#7B68B8}
+.c2 .btn{background:#7B68B8;color:#fff}
+.c2 .btn:hover{background:#6a58a8}
+
+.c3{background:linear-gradient(135deg,#EBFAF5,#E0F5ED)}
+.c3 .tier{color:#2DAA78}
+.c3 .btn{background:#2DAA78;color:#fff}
+.c3 .btn:hover{background:#249868}
+
+.topics{padding:80px 20px;background:#fff;text-align:center}
+.topics h2{font-size:clamp(24px,4vw,36px);margin-bottom:12px}
+.topics .sub{color:#888;margin-bottom:40px;font-size:18px}
+.topic-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px;max-width:1000px;margin:0 auto}
+.topic-item{padding:28px 20px;border-radius:16px;text-align:center}
+.topic-item .icon{font-size:36px;margin-bottom:12px}
+.topic-item h3{font-size:18px;margin-bottom:8px}
+.topic-item p{font-size:14px;color:#666}
+.t1{background:#FFF3EB}.t2{background:#F2EEFC}.t3{background:#FFF8F0}.t4{background:#EBFAF5}
+
+footer{padding:40px 20px;text-align:center;background:#FFFBF5;color:#888;font-size:14px}
+footer a{color:#7B68B8;font-weight:600}
+
+@media(max-width:700px){
+  .cards{grid-template-columns:1fr}
+  .level-card{min-height:auto;padding:36px 24px}
+}
+</style>
+</head>
+<body>
+
+<section class="hero">
+  <h1>AI 시대,<br>대한민국 IT 인프라<br><span class="highlight">종합 보고서</span></h1>
+  <p class="sub">결제 보안 · 망분리 · 공문서 · 행정 보안</p>
+
+  <div class="quote">
+    은행 홈페이지 들어가면 프로그램 5개를 깔아야 한다. 공무원은 업무 PC에서 ChatGPT를 열 수 없다. 구청 서류는 6만 원짜리 프로그램이 있어야 열린다.<br><br>
+    <strong>2026년, AI 강국을 자처하는 대한민국의 현실이다.</strong>
+  </div>
+
+  <div class="cards">
+    <a href="level1.html" class="level-card c1">
+      <div>
+        <div class="emoji">🙋</div>
+        <div class="tier">Level 1</div>
+        <h2>시민 편</h2>
+        <p>나한테 왜 이런 일이 생기는 거야?<br>쉽고 짧게, 핵심만.</p>
+      </div>
+      <span class="btn">읽어보기 →</span>
+    </a>
+
+    <a href="level2.html" class="level-card c2">
+      <div>
+        <div class="emoji">📢</div>
+        <div class="tier">Level 2</div>
+        <h2>행동가 편</h2>
+        <p>왜 이렇게 됐고, 뭘 바꿔야 하나?<br>구조, 비교, 요구사항.</p>
+      </div>
+      <span class="btn">읽어보기 →</span>
+    </a>
+
+    <a href="level3.html" class="level-card c3">
+      <div>
+        <div class="emoji">🏛️</div>
+        <div class="tier">Level 3</div>
+        <h2>정책 입안자 편</h2>
+        <p>구체적으로 누가, 무엇을, 언제?<br>로드맵, 법률, 에이전트 시대 아키텍처.</p>
+      </div>
+      <span class="btn">읽어보기 →</span>
+    </a>
+  </div>
+</section>
+
+<section class="topics">
+  <h2>4대 핵심 의제</h2>
+  <p class="sub">한국 IT 인프라의 구조적 문제</p>
+  <div class="topic-grid">
+    <div class="topic-item t1">
+      <div class="icon">🏦</div>
+      <h3>결제 보안</h3>
+      <p>프로그램 5개 설치, 보이스피싱 못 막음, 북한 해킹 통로</p>
+    </div>
+    <div class="topic-item t2">
+      <div class="icon">🔒</div>
+      <h3>망분리</h3>
+      <p>공무원 PC 인터넷 차단, AI 사용 불가, 3년간 해킹 미발견</p>
+    </div>
+    <div class="topic-item t3">
+      <div class="icon">📄</div>
+      <h3>공문서 HWP</h3>
+      <p>독점 포맷, 6만원 프로그램, AI가 읽을 수 없음</p>
+    </div>
+    <div class="topic-item t4">
+      <div class="icon">🛡️</div>
+      <h3>보안프로그램 과잉</h3>
+      <p>PC에 10종 설치, 성능 50% 저하, 취약점 19건 발견</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>이 자료는 자유롭게 공유, 인용, 활용할 수 있습니다.</p>
+  <p style="margin-top:8px">2026년 3월 · <a href="https://github.com/hohyon-ryu/korean-security-galapagos" target="_blank">GitHub</a></p>
+</footer>
+
+</body>
+</html>
