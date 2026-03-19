@@ -200,6 +200,15 @@ footer{text-align:center;padding:40px 24px;font-size:14px;color:#888;background:
     <div class="hero-big">프로그램 5개 깔라고?</div>
     <p>공동인증서 비밀번호에 보안카드 번호에 OTP에 SMS 인증에...<br>외국에선 지문 찍으면 끝인데. 한국만 25년째.</p>
     <div class="scroll-hint">↓ 스크롤해서 알아보기</div>
+
+    <div class="carousel" id="newsCarousel" style="margin-top:40px">
+      <div class="carousel-track" id="carouselTrack">
+        <img src="img/01.png" alt="카드뉴스 1"><img src="img/02.png" alt="카드뉴스 2"><img src="img/03.png" alt="카드뉴스 3"><img src="img/04.png" alt="카드뉴스 4"><img src="img/05.png" alt="카드뉴스 5"><img src="img/06.png" alt="카드뉴스 6"><img src="img/07.png" alt="카드뉴스 7"><img src="img/08.png" alt="카드뉴스 8"><img src="img/09.png" alt="카드뉴스 9"><img src="img/10.png" alt="카드뉴스 10">
+      </div>
+      <button class="carousel-btn carousel-prev" onclick="moveCarousel(-1)">&#8249;</button>
+      <button class="carousel-btn carousel-next" onclick="moveCarousel(1)">&#8250;</button>
+    </div>
+    <div class="carousel-dots" id="carouselDots"></div>
   </div>
 </section>
 
@@ -295,7 +304,12 @@ footer{text-align:center;padding:40px 24px;font-size:14px;color:#888;background:
       <div class="warn-box">
         <strong>북한 라자루스 그룹</strong>은 국내 보안 프로그램(MagicLine4NX)의 취약점을 이용해 <strong>3년간</strong> 해킹했다. 국정원이 경고했지만 조치는 느렸다.
       </div>
-      <img src="img/instagram-vishing.png" alt="보이스피싱 피해 카드뉴스" style="max-width:500px">
+      <h3>에어비앤비도 한국 결제를 못 붙였다</h3>
+      <p>에어비앤비에서 한국 국내전용 카드로는 결제가 안 된다. 해외겸용 카드만 가능하고, 국내전용은 네이버페이로 우회해야 한다.</p>
+      <p>한국의 독자 결제 규격(PG사 구조, 자체 인증, 비표준 프로토콜) 때문에 글로벌 서비스가 한국 결제를 직접 연동하기 극히 어렵다. Stripe도 한국에서 제대로 작동하지 않는다.</p>
+      <div class="warn-box">
+        <strong>AI 시대에 이게 왜 문제인가:</strong> 글로벌 AI 서비스가 한국 결제를 붙일 수 없으면, 한국 사용자가 AI 서비스를 이용하기 어렵거나, 한국만 빠진 채로 서비스가 운영된다.
+      </div>
     </div>
   </div>
 </section>
@@ -613,20 +627,7 @@ footer{text-align:center;padding:40px 24px;font-size:14px;color:#888;background:
   </div>
 </section>
 
-<!-- 카드뉴스 캐러셀 -->
-<section class="bg-cream" style="padding-bottom:40px">
-  <div class="container">
-    <h2 class="section-title">카드뉴스</h2>
-    <p class="section-sub">좌우로 넘겨보세요</p>
-
-    <div class="card-grid">
-      <img src="img/instagram-cover.png" alt="카드뉴스: 프로그램 5개 깔라고?" style="border-radius:12px;box-shadow:0 4px 20px rgba(0,0,0,.08)">
-      <img src="img/instagram-comparison.png" alt="카드뉴스: 미국 vs 한국 비교" style="border-radius:12px;box-shadow:0 4px 20px rgba(0,0,0,.08)">
-      <img src="img/instagram-vishing.png" alt="카드뉴스: 보이스피싱 못 막는다" style="border-radius:12px;box-shadow:0 4px 20px rgba(0,0,0,.08)">
-      <img src="img/instagram-north-korea.png" alt="카드뉴스: 북한 해킹 통로" style="border-radius:12px;box-shadow:0 4px 20px rgba(0,0,0,.08)">
-    </div>
-  </div>
-</section>
+<!-- 카드뉴스는 히어로 아래로 이동됨 -->
 
 <!-- FAQ -->
 <section id="faq" class="bg-white">
@@ -740,6 +741,41 @@ function toggleDeep(id) {
     btn.textContent = '더 깊이 보기 ▼';
   }
 }
+
+// Carousel
+var carouselIdx = 0;
+var carouselTotal = document.querySelectorAll('#carouselTrack img').length;
+function updateCarousel() {
+  document.getElementById('carouselTrack').style.transform = 'translateX(-' + (carouselIdx * 100) + '%)';
+  var dots = document.querySelectorAll('#carouselDots span');
+  dots.forEach(function(d, i) { d.className = i === carouselIdx ? 'active' : ''; });
+}
+function moveCarousel(dir) {
+  carouselIdx = (carouselIdx + dir + carouselTotal) % carouselTotal;
+  updateCarousel();
+}
+// Build dots
+(function() {
+  var dotsEl = document.getElementById('carouselDots');
+  if (!dotsEl) return;
+  for (var i = 0; i < carouselTotal; i++) {
+    var s = document.createElement('span');
+    s.className = i === 0 ? 'active' : '';
+    s.onclick = (function(idx) { return function() { carouselIdx = idx; updateCarousel(); }; })(i);
+    dotsEl.appendChild(s);
+  }
+})();
+// Touch swipe support
+(function() {
+  var c = document.getElementById('newsCarousel');
+  if (!c) return;
+  var startX = 0;
+  c.addEventListener('touchstart', function(e) { startX = e.touches[0].clientX; });
+  c.addEventListener('touchend', function(e) {
+    var diff = startX - e.changedTouches[0].clientX;
+    if (Math.abs(diff) > 50) moveCarousel(diff > 0 ? 1 : -1);
+  });
+})();
 
 // Smooth scroll for nav links
 document.querySelectorAll('.nav-links a').forEach(function(link) {
